@@ -34,7 +34,7 @@ public class ConfigManager {
 	}
 	
 	private static void loadConfig() {
-		defaultMcheliRange = config.getFloat("Default Mcheli Range", CATEGORY_MCHELI_RANGE, 500, minRange, maxRange, 
+		defaultMcheliRange = config.getFloat("Default Mcheli Range", CATEGORY_MCHELI_RANGE, 500f, minRange, maxRange, 
 				"The default range of an mcheli aircraft radar.");
 		mcheliRangeStrings = config.getStringList("Aircraft Range Overrides", CATEGORY_MCHELI_RANGE, getDefaultRanges(), 
 				"Set custom ranges for aircraft using their display name. <aircraft name>=<range>");
@@ -73,13 +73,13 @@ public class ConfigManager {
 			if (mcheliRangeStrings[i].contains("=")) {
 				String[] data = mcheliRangeStrings[i].split("=");
 				if (data.length == 2) {
-					float num = -1;
+					double num = defaultMcheliRange;
 					try {
-						num = Float.parseFloat(data[1]);
+						num = Double.parseDouble(data[1]);
 					} catch (NumberFormatException e) {
-						printRangeParseError(data[1]+" is not a float.");
+						printRangeParseError(data[1]+" is not a double.");
 					}
-					mcheliList.add(new McheliData(data[0], num));
+					mcheliList.add(addMcheliData(data[0], num));
 				} else printRangeParseError(mcheliRangeStrings[i]+" has more than one =");
 			} else printRangeParseError(mcheliRangeStrings[i]+" doesn't have =");
 		}
@@ -112,18 +112,22 @@ public class ConfigManager {
 	private static void parseStealth() {
 		for (int i = 0; i < mcheliStealthStrings.length; ++i) {
 			if (mcheliStealthStrings[i].contains("=")) {
-				String[] data = mcheliRangeStrings[i].split("=");
+				String[] data = mcheliStealthStrings[i].split("=");
 				if (data.length == 2) {
-					float num = -1;
+					double num = defaultMcheliStealth;
 					try {
-						num = Float.parseFloat(data[1]);
+						num = Double.parseDouble(data[1]);
 					} catch (NumberFormatException e) {
-						printRangeParseError(data[1]+" is not a float.");
+						printRangeParseError(data[1]+" is not a double.");
 					}
-					mcheliList.add(new McheliData(num, data[0]));
-				} else printRangeParseError(mcheliStealthStrings[i]+" has more than one =");
-			} else printRangeParseError(mcheliStealthStrings[i]+" doesn't have =");
+					mcheliList.add(addMcheliData(num, data[0]));
+				} else printStealthParseError(mcheliStealthStrings[i]+" has more than one =");
+			} else printStealthParseError(mcheliStealthStrings[i]+" doesn't have =");
 		}
+	}
+	
+	private static void printStealthParseError(String error) {
+		System.out.println("jmradar.ConfigManager: Stealth Override Parse Error: "+error);
 	}
 	
 	/**
@@ -143,6 +147,22 @@ public class ConfigManager {
 			if (mcheliList.get(i).getName().equals(name)) return mcheliList.get(i);
 		}
 		return null;
+	}
+	
+	private static McheliData addMcheliData(String name, double range) {
+		McheliData data = getMcheliDatabyName(name);
+		if (data == null) return new McheliData(name, range);
+		data.setRange(range);
+		//System.out.println("NEW DATA = "+data);
+		return data;
+	}
+	
+	private static McheliData addMcheliData(double stealth, String name) {
+		McheliData data = getMcheliDatabyName(name);
+		if (data == null) return new McheliData(stealth, name);
+		data.setStealth(stealth);
+		//System.out.println("NEW DATA = "+data);
+		return data;
 	}
 	
 }

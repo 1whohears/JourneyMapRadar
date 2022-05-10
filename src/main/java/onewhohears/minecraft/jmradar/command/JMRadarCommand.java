@@ -31,7 +31,7 @@ public class JMRadarCommand extends CommandBase {
 
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
-		return "Don't be bad";
+		return "/"+cmd+" clearpings";
 	}
 	
 	@SuppressWarnings("rawtypes")

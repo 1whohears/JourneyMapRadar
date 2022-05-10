@@ -3,43 +3,48 @@ package onewhohears.minecraft.jmradar.config;
 public class McheliData {
 	
 	private String name;
-	private float range;
-	private float stealth;
+	private double range;
+	private double stealth;
 	
-	public McheliData(String name, float range) {
+	protected McheliData(String name, double range) {
 		this.name = name;
 		setRange(range);
-		this.stealth = (float)ConfigManager.defaultMcheliStealth;
+		this.stealth = ConfigManager.defaultMcheliStealth;
 	}
 	
-	public McheliData(float stealth, String name) {
+	protected McheliData(double stealth, String name) {
 		this.name = name;
 		setStealth(stealth);
-		this.range = (float)ConfigManager.defaultMcheliRange;
+		this.range = ConfigManager.defaultMcheliRange;
 	}
 	
 	public String getName() {
 		return name;
 	}
 	
-	public float getRange() {
+	public double getRange() {
 		return range;
 	}
 	
-	public void setRange(float range) {
+	public void setRange(double range) {
 		if (range < ConfigManager.minRange) range = ConfigManager.minRange;
 		else if (range > ConfigManager.maxRange) range = ConfigManager.maxRange;
 		this.range = range;
 	}
 	
-	public float getStealth() {
+	public double getStealth() {
 		return stealth;
 	}
 	
-	public void setStealth(float stealth) {
+	public void setStealth(double stealth) {
 		if (stealth < ConfigManager.minStealth) stealth = ConfigManager.minStealth;
 		else if (stealth > ConfigManager.maxStealth) stealth = ConfigManager.maxStealth;
 		this.stealth = stealth;
+	}
+	
+	@Override
+	public String toString() {
+		return "[" + name + " : " + range + " : " + stealth + "]";
 	}
 	
 }

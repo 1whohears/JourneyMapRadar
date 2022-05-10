@@ -8,7 +8,7 @@ import onewhohears.minecraft.jmradar.api.ApiRadarEntity;
 public class EventServerTick {
 	
 	@SubscribeEvent
-	public void onPlayerTick(TickEvent.ServerTickEvent event) {
+	public void onServerTick(TickEvent.ServerTickEvent event) {
 		if (event.side != Side.SERVER) return;
 		if (event.phase != TickEvent.Phase.END) return;
 		if (ApiRadarEntity.instance != null) {

@@ -41,6 +41,8 @@ public class EventPlayerTick {
 		MCH_AircraftInfo info = playerAircraft.getAcInfo();
 		if (!info.isEnableEntityRadar) return;
 		double range = ConfigManager.getPlaneRange(info.displayName);
+		sendMessage(player, "Riding: "+info.displayName);
+		sendMessage(player, "Range = "+range);
 		List<Entity> entities = player.getEntityWorld().getEntitiesWithinAABB(
 				MCH_EntityAircraft.class, player.boundingBox.expand(range, range, range));
 		List<Entity> pings = new ArrayList<Entity>();
@@ -53,6 +55,8 @@ public class EventPlayerTick {
 			if (!ping.getEntityType().equals("Plane")) continue;
 			double distance = player.getDistanceToEntity(ping);
 			double stealth = ConfigManager.getPlaneStealth(pingDisplayName);
+			sendMessage(player, "Ping Name "+pingDisplayName);
+			sendMessage(player, "Stealth = "+stealth);
 			if (distance > (range * stealth)) continue;
 			if (ping.riddenByEntity == null) continue;
 			if (!(ping.riddenByEntity instanceof EntityPlayer)) continue;
@@ -71,7 +75,7 @@ public class EventPlayerTick {
 		for (int i = 0; i < pings.size(); ++i) {
 			String waypoint = ApiWaypointManager.instance.createFormattedString(playerKey+i, 
 					(int)pings.get(i).posX, (int)pings.get(i).posY, (int)pings.get(i).posZ, pings.get(i).dimension, 0xe3b016, true);
-			player.addChatMessage(new ChatComponentText(waypoint));
+			sendMessage(player, waypoint);
 			if (playerNames != null) for (int j = 0; j < playerNames.size(); ++j) {
 				if (playerNames.get(j).equals(playerName)) continue;
 				String name = playerKey+i;
@@ -79,6 +83,10 @@ public class EventPlayerTick {
 						0xe3b016, true, name, playerName, playerNames.get(j));
 			}
 		}
+	}
+	
+	private void sendMessage(EntityPlayer player, String message) {
+		player.addChatMessage(new ChatComponentText(message));
 	}
 	
 }
