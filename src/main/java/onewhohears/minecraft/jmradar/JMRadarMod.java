@@ -47,7 +47,7 @@ public class JMRadarMod {
         Channel = NetworkRegistry.INSTANCE.newEventDrivenChannel("JMR_Server");
         ChannelPlayer = NetworkRegistry.INSTANCE.newEventDrivenChannel("JMR_Player");
         proxy.load();
-        ConfigManager.init(event.getModConfigurationDirectory().toString()+"/config");
+        ConfigManager.init(event.getModConfigurationDirectory().toString()+"/");
         FMLCommonHandler.instance().bus().register(new ConfigManager());
     }
     

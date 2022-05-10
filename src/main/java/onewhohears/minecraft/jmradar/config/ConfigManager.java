@@ -42,7 +42,7 @@ public class ConfigManager {
 		defaultMcheliStealth = config.getFloat("Default Mcheli Stealth", CATEGORY_MCHELI_STEALTH, 1.0f, minStealth, maxStealth, 
 				"The default stealth of a mcheli aircraft.");
 		mcheliStealthStrings = config.getStringList("Aircraft Stealth Overrides", CATEGORY_MCHELI_STEALTH, getDefaultStealth(), 
-				"Set custom stealth for aircraft using their display name. <aircraft name>=<stealth>");
+				"Set custom stealth for aircraft using their display name. Your_Stealth * Enemy_Range is the distance an enemy can see you. <aircraft name>=<stealth>");
 		parseStealth();
 		if (config.hasChanged()) config.save();
 	}
