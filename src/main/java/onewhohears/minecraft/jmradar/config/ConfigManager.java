@@ -58,13 +58,13 @@ public class ConfigManager {
 				"B-2A Spirit=2000",
 				"C5A galaxy=2000",
 				"F-22A Raptor=1500",
-				"Su-47 Berkut=1100",
+				"Su-47 Berkut=1200",
 				"F-35A Lightning II=1100",
 				"F-35B Lightning II=1100",
 				"F-35C Lightning II=1100",
 				"F-15E Strike Eagle=650",
 				"F-15 S/MTD=650",
-				"F-14D Super Tomcat=650"
+				"F-14D Super Tomcat=600"
 		};
 	}
 	
