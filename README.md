@@ -10,7 +10,7 @@ https://www.curseforge.com/minecraft/mc-mods/journey-map-qol
 ### Mcheli Waypoint Radar
 If a player rides any mcheli aircraft that has an "entity radar" waypoints displaying the location of other players in their mcheli aircraft will be sent to the player. 
 
-Waypoints of players on your team will be automatically shared to you.
+Radar pings from players on your team will be automatically shared to you.
 
 You can modify the range and stealth values for each plane in the config file. (**/config/configjmradar.cfg)
 ### API
