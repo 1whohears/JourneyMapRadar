@@ -1,5 +1,5 @@
 # JourneyMapRadar
-A simple mod that uses Journey Map Waypoints to show Radar Pings
+A simple mod that uses Journey Map Waypoints to show Radar Pings.
 
 There are still plenty of things I want to add and I'm sure plenty of things don't work. 
 
