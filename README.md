@@ -1,7 +1,7 @@
 # JourneyMapRadar
 A simple mod that uses Journey Map Waypoints to show Radar Pings
 ## Dependencies
-https://www.curseforge.com/minecraft/mc-mods/mcheli-minecraft-helicopter-mod
+https://www.curseforge.com/minecraft/mc-mods/mcheli-minecraft-helicopter-mod or some other variant of mcheli
 
 https://www.curseforge.com/minecraft/mc-mods/journeymap
 
