@@ -9,9 +9,9 @@ https://www.curseforge.com/minecraft/mc-mods/journey-map-qol
 ## Features
 Note: There are a lot of things I want to add, and I'd appreciate you're suggestions and bug reports. The API is definitely not ready for use yet.
 ### Mcheli Waypoint Radar
-If a player rides any mcheli aircraft that has an "entity radar" waypoints displaying the location of other players in their mcheli aircraft will be sent to the player. 
+If a player rides an mcheli aircraft that has an "entity radar" mode, yellow waypoints ate location of other players in their mcheli aircraft will be sent to the player. 
 
-Radar pings from players on your team will be automatically shared to you.
+Players on the same team automatically share radar pings.
 
 You can modify the range and stealth values for each plane in the config file. (**/config/configjmradar.cfg)
 ### API (WIP)
