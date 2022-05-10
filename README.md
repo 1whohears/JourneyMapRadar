@@ -1,5 +1,9 @@
 # JourneyMapRadar
 A simple mod that uses Journey Map Waypoints to show Radar Pings
+
+There are still plenty of things I want to add and I'm sure plenty of things don't work. 
+
+I'd appreciate you're suggestions and bug reports.
 ## Dependencies
 https://www.curseforge.com/minecraft/mc-mods/mcheli-minecraft-helicopter-mod or some other variant of mcheli
 
@@ -13,7 +17,7 @@ If a player rides any mcheli aircraft that has an "entity radar" waypoints displ
 Radar pings from players on your team will be automatically shared to you.
 
 You can modify the range and stealth values for each plane in the config file. (**/config/configjmradar.cfg)
-### API
-Register an entity with a player name and other parameters with ApiRadarEntity.instance.addRadar(...) to have an entity send radar data to that player. At least that's what it's supposed to do. It's not finished and probably doesn't work, but it's not the main point of this mod anyway.
+### API (WIP)
+Register an entity with a player name and other parameters with ApiRadarEntity.instance.addRadar(...) to have an entity send radar data to that player. 
 ## Commands
 `/jmradar clearpings` removes all ping waypoints.
