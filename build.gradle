@@ -1,0 +1,39 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url = "https://jcenter.bintray.com/" }
+        maven {
+            name = "forge"
+            url = "https://maven.minecraftforge.net/"
+        }
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+    dependencies {
+        classpath ('com.anatawa12.forge:ForgeGradle:1.2-1.0.+') {
+            changing = true
+        }
+    }
+}
+
+apply plugin: 'forge'
+
+version = "0.1.0"
+group= "com.onewhohears.jmradar" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "Journey_Map_Radar_1.7.10"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+minecraft {
+    version = "1.7.10-10.13.4.1614-1.7.10"
+    runDir = "eclipse"
+}
+
+dependencies {
+	implementation project(':JourneyMapQOL_1.7.10')
+}
+
+sourceSets { main { resources { exclude '**/*.bak' } } }

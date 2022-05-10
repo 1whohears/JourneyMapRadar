@@ -1,0 +1,2 @@
+include ':JourneyMapQOL_1.7.10'
+project(':JourneyMapQOL_1.7.10').projectDir = new File('../JourneyMapQOL_1.7.10')
