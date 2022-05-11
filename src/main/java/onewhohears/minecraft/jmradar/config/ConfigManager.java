@@ -34,7 +34,7 @@ public class ConfigManager {
 	}
 	
 	private static void loadConfig() {
-		defaultMcheliRange = config.getFloat("Default Mcheli Range", CATEGORY_MCHELI_RANGE, 500f, minRange, maxRange, 
+		defaultMcheliRange = config.getFloat("Default Mcheli Range", CATEGORY_MCHELI_RANGE, 800f, minRange, maxRange, 
 				"The default range of an mcheli aircraft radar.");
 		mcheliRangeStrings = config.getStringList("Aircraft Range Overrides", CATEGORY_MCHELI_RANGE, getDefaultRanges(), 
 				"Set custom ranges for aircraft using their display name. <aircraft name>=<range>");
@@ -54,17 +54,17 @@ public class ConfigManager {
 	
 	private static String[] getDefaultRanges() {
 		return new String[] {
-				"E767=6000",
-				"B-2A Spirit=2000",
-				"C5A galaxy=2000",
-				"F-22A Raptor=1500",
-				"Su-47 Berkut=1200",
-				"F-35A Lightning II=1100",
-				"F-35B Lightning II=1100",
-				"F-35C Lightning II=1100",
-				"F-15E Strike Eagle=650",
-				"F-15 S/MTD=650",
-				"F-14D Super Tomcat=600"
+				"E767=8000",
+				"B-2A Spirit=3000",
+				"C5A galaxy=3000",
+				"F-22A Raptor=2000",
+				"Su-47 Berkut=1600",
+				"F-35A Lightning II=1500",
+				"F-35B Lightning II=1500",
+				"F-35C Lightning II=1500",
+				"F-15E Strike Eagle=950",
+				"F-15 S/MTD=950",
+				"F-14D Super Tomcat=900"
 		};
 	}
 	
