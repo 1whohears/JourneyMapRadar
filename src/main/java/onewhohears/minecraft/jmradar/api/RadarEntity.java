@@ -26,23 +26,6 @@ public class RadarEntity {
 	private boolean removeOnDeath = true;
 	private int minRadarRate = 10;
 	
-	protected RadarEntity(String id, double range, int radarRate, EntityLivingBase radar, TargetType targetType) {
-		this.id = id;
-		this.radar = radar;
-		this.targetType = targetType;
-		setRange(range);
-		setRadarRate(radarRate);
-	}
-	
-	protected RadarEntity(String id, double range, int radarRate, EntityLivingBase radar, TargetType targetType, EntityPlayerMP player) {
-		this.id = id;
-		this.radar = radar;
-		this.targetType = targetType;
-		addPlayer(player);
-		setRange(range);
-		setRadarRate(radarRate);
-	}
-	
 	protected RadarEntity(String id, double range, int radarRate, EntityLivingBase radar, TargetType targetType, EntityPlayerMP player, double infoRange) {
 		this.id = id;
 		this.radar = radar;
