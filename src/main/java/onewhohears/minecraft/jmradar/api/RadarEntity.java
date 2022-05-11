@@ -38,7 +38,7 @@ public class RadarEntity {
 		this.id = id;
 		this.radar = radar;
 		this.targetType = targetType;
-		players.add(player);
+		addPlayer(player);
 		setRange(range);
 		setRadarRate(radarRate);
 	}
@@ -48,7 +48,7 @@ public class RadarEntity {
 		this.radar = radar;
 		this.infoRange = infoRange;
 		this.targetType = targetType;
-		players.add(player);
+		addPlayer(player);
 		setRange(range);
 		setRadarRate(radarRate);
 	}
