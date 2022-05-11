@@ -23,7 +23,7 @@ public class ApiRadarEntity {
 	 * This returns null if the inputed id has already been used.
 	 * @param id unique String id used to identity this radar entity
 	 * @param range the range this radar could detect an object
-	 * @param radarRate number of ticks between radar checks
+	 * @param radarRate number of ticks between radar checks. minimum of 10
 	 * @param targetType the type of entities the radar tracks
 	 * @param radarEntity the entity that functions as a radar
 	 * @param player the player the radar sends the pings to
@@ -44,7 +44,7 @@ public class ApiRadarEntity {
 	 * This returns null if the inputed id has already been used.
 	 * @param id unique String id used to identity this radar entity
 	 * @param range the range this radar could detect an object
-	 * @param radarRate number of ticks between radar checks
+	 * @param radarRate number of ticks between radar checks. minimum of 10
 	 * @param targetType the type of entities the radar tracks | 0 = players, 1 = mcheli aircraft, 2 = mobs
 	 * @param radarEntity the entity that functions as a radar
 	 * @param player the player the radar sends the pings to
