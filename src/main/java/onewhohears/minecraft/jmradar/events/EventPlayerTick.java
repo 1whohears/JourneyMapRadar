@@ -9,7 +9,6 @@ import cpw.mods.fml.relauncher.Side;
 import mcheli.aircraft.MCH_AircraftInfo;
 import mcheli.aircraft.MCH_EntityAircraft;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Scoreboard;
@@ -41,13 +40,11 @@ public class EventPlayerTick {
 		MCH_AircraftInfo info = playerAircraft.getAcInfo();
 		if (!info.isEnableEntityRadar) return;
 		double range = ConfigManager.getPlaneRange(info.displayName);
-		sendMessage(player, "Riding: "+info.displayName);
-		sendMessage(player, "Range = "+range);
-		List<Entity> entities = player.getEntityWorld().getEntitiesWithinAABB(
+		List<MCH_EntityAircraft> entities = player.getEntityWorld().getEntitiesWithinAABB(
 				MCH_EntityAircraft.class, player.boundingBox.expand(range, range, range));
-		List<Entity> pings = new ArrayList<Entity>();
+		List<MCH_EntityAircraft> pings = new ArrayList<MCH_EntityAircraft>();
 		for(int i = 0; i < entities.size(); ++i) {
-			MCH_EntityAircraft ping = (MCH_EntityAircraft)entities.get(i);
+			MCH_EntityAircraft ping = entities.get(i);
 			if (ping == playerAircraft) continue;
 			if (ping.isBurning() || ping.isDestroyed()) continue;
 			String pingDisplayName = ping.getAcInfo().displayName;
@@ -55,8 +52,6 @@ public class EventPlayerTick {
 			if (!ping.getEntityType().equals("Plane")) continue;
 			double distance = player.getDistanceToEntity(ping);
 			double stealth = ConfigManager.getPlaneStealth(pingDisplayName);
-			sendMessage(player, "Ping Name "+pingDisplayName);
-			sendMessage(player, "Stealth = "+stealth);
 			if (distance > (range * stealth)) continue;
 			if (ping.riddenByEntity == null) continue;
 			if (!(ping.riddenByEntity instanceof EntityPlayer)) continue;

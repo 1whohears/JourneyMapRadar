@@ -7,13 +7,17 @@ import net.minecraft.entity.player.EntityPlayerMP;
 
 public class ApiRadarEntity {
 	
-	public static ApiRadarEntity instance;
+	private static ApiRadarEntity instance;
 	
 	private ArrayList<RadarEntity> radars;
 	
 	public ApiRadarEntity() {
 		radars = new ArrayList<RadarEntity>();
 		instance = this;
+	}
+	
+	public static ApiRadarEntity getInstance() {
+		return instance;
 	}
 	
 	/**
@@ -83,7 +87,7 @@ public class ApiRadarEntity {
 	 */
 	public void runMcheliRadar() {
 		for (int i = 0; i < radars.size(); ++i) {
-			radars.get(i).runMcheliRadar();
+			radars.get(i).runRadar();
 		}
 	}
 	
