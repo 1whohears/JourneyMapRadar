@@ -52,7 +52,7 @@ public class ApiRadarEntity {
 	 * @return returns null if that id already exists
 	 */
 	public RadarEntity addRadar(String id, double range, int radarRate, int targetType, EntityLivingBase radarEntity, EntityPlayerMP player, double infoRange) {
-		if (targetType < 0 || targetType > TargetType.values().length) return null;
+		if (targetType < 0 || targetType >= TargetType.values().length) return null;
 		TargetType type = TargetType.values()[targetType];
 		return this.addRadar(id, range, radarRate, type, radarEntity, player, infoRange);
 	}
