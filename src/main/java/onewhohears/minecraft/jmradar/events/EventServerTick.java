@@ -12,7 +12,7 @@ public class EventServerTick {
 		if (event.side != Side.SERVER) return;
 		if (event.phase != TickEvent.Phase.END) return;
 		if (ApiRadarEntity.instance != null) {
-			ApiRadarEntity.instance.runMcheliRadar();
+			ApiRadarEntity.instance.runEntityRadars();
 		}
 	}
 	

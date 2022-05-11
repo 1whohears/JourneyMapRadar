@@ -87,7 +87,7 @@ public class ApiRadarEntity {
 	/**
 	 * automatically run in server tick event
 	 */
-	public void runMcheliRadar() {
+	public void runEntityRadars() {
 		for (int i = 0; i < radars.size(); ++i) {
 			radars.get(i).runRadar();
 		}
