@@ -9,7 +9,7 @@ https://www.curseforge.com/minecraft/mc-mods/journey-map-qol
 ## Features
 Note: There are a lot of things I want to add, and I'd appreciate you're suggestions and bug reports. 
 ### Mcheli Waypoint Radar
-If a player rides an mcheli aircraft that has an "entity radar" mode, yellow waypoints ate location of other players in their mcheli aircraft will be sent to the player. 
+If a player rides an mcheli aircraft that has an "entity radar" mode, yellow waypoints at the location of other players in their mcheli aircraft will be sent to the player. 
 
 Players on the same team automatically share radar pings.
 
