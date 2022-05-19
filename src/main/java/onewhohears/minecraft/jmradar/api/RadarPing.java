@@ -42,9 +42,10 @@ public class RadarPing {
 		return number;
 	}
 	
-	protected void setPrefixNumber(String prefix, int number) {
+	protected void resetPrefixNumber(String prefix, int number) {
 		this.prefix = prefix;
 		this.number = number;
+		this.age = 0;
 	}
 	
 }

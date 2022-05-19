@@ -6,7 +6,6 @@ import java.util.List;
 import mcheli.aircraft.MCH_EntityAircraft;
 import mcheli.weapon.MCH_EntityAAMissile;
 import mcheli.weapon.MCH_SightType;
-import mcheli.weapon.MCH_WeaponAAMissile;
 import mcheli.weapon.MCH_WeaponInfo;
 import mcheli.weapon.MCH_WeaponParam;
 import mcheli.weapon.MCH_WeaponSet;
@@ -15,7 +14,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.chunk.IChunkProvider;
 import onewhohears.minecraft.jmradar.config.ConfigManager;
 
@@ -137,7 +135,7 @@ public class ApiMcheliBvr {
 		return false;
 	}
 	
-	public void launchTestMissile(EntityPlayer user, Entity target) {
+	/*public void launchTestMissile(EntityPlayer user, Entity target) {
 		if (user == null || target == null) return;
 		MCH_EntityAAMissile m = new MCH_EntityAAMissile(user.worldObj, 
 				user.posX, user.posY, user.posZ, 
@@ -158,7 +156,7 @@ public class ApiMcheliBvr {
 		double speed = 2;
 		m.setMotion(look.xCoord*speed, look.yCoord*speed, look.zCoord*speed);
 		missiles.add(new Missile(m));
-	}
+	}*/
 	
 	public void runBvrMissiles() {
 		if (missiles.size() > 0) System.out.println("Missiles Num = "+missiles.size());

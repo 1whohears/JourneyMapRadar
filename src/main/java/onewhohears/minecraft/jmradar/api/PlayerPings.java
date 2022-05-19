@@ -19,7 +19,7 @@ public class PlayerPings {
 	protected void addPing(String prefix, int number, Entity pingEntity, int maxAge) {
 		for (int i = 0; i < pings.size(); ++i) {
 			if (pings.get(i).getEntity().equals(pingEntity)) {
-				pings.get(i).setPrefixNumber(prefix, number);
+				pings.get(i).resetPrefixNumber(prefix, number);
 				return;
 			}
 		}
@@ -39,7 +39,7 @@ public class PlayerPings {
 	protected void verifyPingAges() {
 		for (int i = 0; i < pings.size(); ++i) {
 			if (pings.get(i).isTooOld()) {
-				ApiWaypointManager.instance.removePlayerWaypoint(playerName, pings.get(i).getFullName());
+				ApiWaypointManager.instance.removePlayerWaypoint(playerName, pings.get(i).getFullName(), false);
 				pings.remove(i--);
 			}
 		}

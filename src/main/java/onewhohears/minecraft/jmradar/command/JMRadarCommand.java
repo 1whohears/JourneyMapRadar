@@ -88,7 +88,7 @@ public class JMRadarCommand extends CommandBase {
 	}
 	
 	private void clearPings() {
-		ApiWaypointManager.instance.removePlayerWaypointByPrefix(user.getDisplayName(), ApiRadarEntity.radarPrefix);
+		ApiWaypointManager.instance.removePlayerWaypointByPrefix(user.getDisplayName(), ApiRadarEntity.radarPrefix, true);
 	}
 	
 	/*private void testShoot(String name) {
