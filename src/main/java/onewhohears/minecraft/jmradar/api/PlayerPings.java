@@ -19,7 +19,7 @@ public class PlayerPings {
 	protected void addPing(String prefix, int number, Entity pingEntity, int maxAge) {
 		for (int i = 0; i < pings.size(); ++i) {
 			if (pings.get(i).getEntity().equals(pingEntity)) {
-				pings.get(i).resetPrefixNumber(prefix, number);
+				//pings.get(i).resetPrefixNumber(prefix, number);
 				return;
 			}
 		}
@@ -31,16 +31,20 @@ public class PlayerPings {
 	}
 	
 	protected void resetByPrefix(String prefix) {
-		for (int i = 0; i < pings.size(); ++i) {
+		/*for (int i = 0; i < pings.size(); ++i) {
 			if (pings.get(i).getPrefix().equals(prefix)) pings.remove(i--);
-		}
+		}*/
 	}
 	
 	protected void verifyPingAges() {
+		System.out.println(playerName+" PING AGES");
 		for (int i = 0; i < pings.size(); ++i) {
+			String name = pings.get(i).getFullName();
+			System.out.println(name+" age = "+pings.get(i).getAge());
 			if (pings.get(i).isTooOld()) {
-				ApiWaypointManager.instance.removePlayerWaypoint(playerName, pings.get(i).getFullName(), false); // TODO no delete sometimes?
+				ApiWaypointManager.instance.removePlayerWaypoint(playerName, name, true); // TODO no delete sometimes?
 				pings.remove(i--);
+				System.out.println("TOO OLD");
 			}
 		}
 	}

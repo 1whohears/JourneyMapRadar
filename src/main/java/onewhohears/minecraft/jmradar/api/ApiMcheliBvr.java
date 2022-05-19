@@ -41,9 +41,9 @@ public class ApiMcheliBvr {
 	}
 	
 	public void resetPingsByPrefix(String prefix) {
-		for (int i = 0; i < playerPings.size(); ++i) {
+		/*for (int i = 0; i < playerPings.size(); ++i) {
 			playerPings.get(i).resetByPrefix(prefix);
-		}
+		}*/
 	}
 	
 	public void addPing(String playerName, String prefix, int number, Entity pingEntity, int maxAge) {
@@ -126,6 +126,7 @@ public class ApiMcheliBvr {
 			sendError(user, "Not Enough Ammo!"); // TODO check if plane has enough ammo
 			return false;
 		}
+		
 		// TODO check if plane is in cool down
 		MCH_WeaponParam prm = new MCH_WeaponParam();
 		prm.setPosition(ac.posX, ac.posY, ac.posZ);

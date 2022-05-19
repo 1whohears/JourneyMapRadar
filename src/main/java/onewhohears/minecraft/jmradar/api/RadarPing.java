@@ -27,7 +27,7 @@ public class RadarPing {
 	}
 	
 	protected boolean isTooOld() {
-		return age++ > maxAge;
+		return ++age >= maxAge;
 	}
 	
 	public String getFullName() {

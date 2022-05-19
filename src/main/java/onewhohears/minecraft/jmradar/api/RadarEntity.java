@@ -300,7 +300,7 @@ public class RadarEntity {
 		for (int i = 0; i < players.size(); ++i) {
 			if (players.get(i).getDistanceToEntity(radar) > infoRange) continue;
 			sendPlayerMessage(i, waypoint);
-			ApiMcheliBvr.instance.addPing(players.get(i).getDisplayName(), prefix, number, ping, radarRate+1);
+			ApiMcheliBvr.instance.addPing(players.get(i).getDisplayName(), prefix, number, ping, radarRate);
 			playerNearBy = true;
 		}
 		if (playerNearBy && ping.riddenByEntity != null) W_WorldFunc.MOD_playSoundAtEntity(ping.riddenByEntity, "locked", 1.0F, 1.0F);

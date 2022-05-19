@@ -12,12 +12,13 @@ public class EventServerTick {
 	public void onServerTick(TickEvent.ServerTickEvent event) {
 		if (event.side != Side.SERVER) return;
 		if (event.phase != TickEvent.Phase.START) return;
+		// THIS ORDER IS REQUIRED
+		if (ApiMcheliBvr.instance != null) {
+			ApiMcheliBvr.instance.verifyPingAges();
+			ApiMcheliBvr.instance.runBvrMissiles();
+		}
 		if (ApiRadarEntity.instance != null) {
 			ApiRadarEntity.instance.runEntityRadars();
-		}
-		if (ApiMcheliBvr.instance != null) {
-			ApiMcheliBvr.instance.runBvrMissiles();
-			ApiMcheliBvr.instance.verifyPingAges();
 		}
 	}
 	
