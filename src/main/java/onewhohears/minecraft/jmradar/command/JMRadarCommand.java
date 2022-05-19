@@ -10,9 +10,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
-import onewhohears.minecraft.jmapi.api.ApiWaypointManager;
 import onewhohears.minecraft.jmradar.api.ApiMcheliBvr;
-import onewhohears.minecraft.jmradar.api.ApiRadarEntity;
 
 public class JMRadarCommand extends CommandBase {
 	
@@ -32,7 +30,7 @@ public class JMRadarCommand extends CommandBase {
 
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
-		return "/"+cmd+" shoot/clearpings/color";
+		return "/"+cmd+" shoot/color";
 	}
 	
 	@SuppressWarnings("rawtypes")
@@ -46,9 +44,6 @@ public class JMRadarCommand extends CommandBase {
 			} else if (args[0].equals("color")) {
 				return CommandBase.getListOfStringsMatchingLastWord(args, getPrefixNames(sender.getCommandSenderName()));
 			} 
-			/*else if (args[0].equals("testshoot")) {
-				return CommandBase.getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames());
-			}*/
 		}
 		return null;
 	}
@@ -56,12 +51,8 @@ public class JMRadarCommand extends CommandBase {
 	@Override
 	public void processCommand(ICommandSender sender, String[] args) {
 		user = sender.getEntityWorld().getPlayerEntityByName(sender.getCommandSenderName());
-		if (args.length == 1) {
-			if (args[0].equals("clearpings")) clearPings();
-			else sendError("Unknown Command!");
-		} else if (args.length == 2) {
+		if (args.length == 2) {
 			if (args[0].equals("shoot")) shoot(args[1]);
-			//else if (args[0].equals("testshoot")) testShoot(args[1]);
 			else sendError("Unknown Command!");
 		} else if (args.length == 3) {
 			if (args[0].equals("color")) color(args[1], args[2]);
@@ -86,20 +77,6 @@ public class JMRadarCommand extends CommandBase {
 		// TODO change color of a ping by its prefix
 		sendMessage("This command doesn't work yet.");
 	}
-	
-	private void clearPings() {
-		ApiWaypointManager.instance.removePlayerWaypointByPrefix(user.getDisplayName(), ApiRadarEntity.radarPrefix, true);
-	}
-	
-	/*private void testShoot(String name) {
-		Entity target = user.getEntityWorld().getPlayerEntityByName(name);
-		if (target == null) {
-			sendError("That Player Doesn't Exist");
-			return;
-		}
-		ApiMcheliBvr.instance.launchTestMissile(user, target);
-		sendMessage("Missile Fired!");
-	}*/
 	
 	private String[] getPingNames(String playerName) {
 		return ApiMcheliBvr.instance.getPlayerPingNames(playerName);

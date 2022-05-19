@@ -13,8 +13,11 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.event.FMLServerStoppedEvent;
 import cpw.mods.fml.common.network.FMLEventChannel;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.relauncher.Side;
+import net.minecraftforge.client.ClientCommandHandler;
 import onewhohears.minecraft.jmradar.api.ApiMcheliBvr;
 import onewhohears.minecraft.jmradar.api.ApiRadarEntity;
+import onewhohears.minecraft.jmradar.command.ClearPingsCommand;
 import onewhohears.minecraft.jmradar.command.JMRadarCommand;
 import onewhohears.minecraft.jmradar.config.ConfigManager;
 import onewhohears.minecraft.jmradar.events.EventPlayerTick;
@@ -53,6 +56,9 @@ public class JMRadarMod {
     
     @EventHandler
     public void init(FMLInitializationEvent event) {
+    	if (event.getSide() == Side.CLIENT) {
+        	ClientCommandHandler.instance.registerCommand(new ClearPingsCommand());
+    	}
     	FMLCommonHandler.instance().bus().register(new EventPlayerTick());
     	FMLCommonHandler.instance().bus().register(new EventServerTick());
     }
