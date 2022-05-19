@@ -259,7 +259,6 @@ public class RadarEntity {
 			if (players.get(0).isOnSameTeam((EntityPlayer)ping.riddenByEntity)) continue;
 			if (!radar.canEntityBeSeen(ping)) continue;
 			pings.add(ping);
-			W_WorldFunc.MOD_playSoundAtEntity(ping.riddenByEntity, "locked", 1.0F, 1.0F); // why no work?
 		}
 		String prefix = id;
 		if (prefix.length() > 5) prefix = prefix.substring(0, 5);
@@ -297,11 +296,14 @@ public class RadarEntity {
 	}
 	
 	private void updatePlayersPings(String waypoint, Entity ping, String prefix, int number) {
+		boolean playerNearBy = false;
 		for (int i = 0; i < players.size(); ++i) {
 			if (players.get(i).getDistanceToEntity(radar) > infoRange) continue;
 			sendPlayerMessage(i, waypoint);
 			ApiMcheliBvr.instance.addPing(players.get(i).getDisplayName(), prefix, number, ping, radarRate+1);
+			playerNearBy = true;
 		}
+		if (playerNearBy && ping.riddenByEntity != null) W_WorldFunc.MOD_playSoundAtEntity(ping.riddenByEntity, "locked", 1.0F, 1.0F);
 	}
 	
 }

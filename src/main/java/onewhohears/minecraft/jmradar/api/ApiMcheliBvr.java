@@ -113,7 +113,10 @@ public class ApiMcheliBvr {
 			sendError(user, "The Min Range for this Missile is "+minRange);
 			return false;
 		}
-		// TODO check if plane has enough ammo
+		if (ws.getAmmoNum() < 1) {
+			sendError(user, "Not Enough Ammo!"); // TODO check if plane has enough ammo
+			return false;
+		}
 		// TODO check if plane is in cool down
 		MCH_WeaponParam prm = new MCH_WeaponParam();
 		prm.setPosition(ac.posX, ac.posY, ac.posZ);
