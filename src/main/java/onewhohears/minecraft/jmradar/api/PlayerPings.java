@@ -39,7 +39,7 @@ public class PlayerPings {
 	protected void verifyPingAges() {
 		for (int i = 0; i < pings.size(); ++i) {
 			if (pings.get(i).isTooOld()) {
-				ApiWaypointManager.instance.removePlayerWaypoint(playerName, pings.get(i).getFullName(), false);
+				ApiWaypointManager.instance.removePlayerWaypoint(playerName, pings.get(i).getFullName(), false); // TODO no delete sometimes?
 				pings.remove(i--);
 			}
 		}

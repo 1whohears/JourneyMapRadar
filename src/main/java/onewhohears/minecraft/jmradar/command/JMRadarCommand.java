@@ -37,7 +37,7 @@ public class JMRadarCommand extends CommandBase {
 	@Override
 	public List addTabCompletionOptions(ICommandSender sender, String[] args) {
 		if (args.length == 1) {
-			return CommandBase.getListOfStringsMatchingLastWord(args, new String[] {"shoot", "clearpings", "color"});
+			return CommandBase.getListOfStringsMatchingLastWord(args, new String[] {"shoot", "color"});
 		} else if (args.length == 2) {
 			if (args[0].equals("shoot")) {
 				return CommandBase.getListOfStringsMatchingLastWord(args, getPingNames(sender.getCommandSenderName()));

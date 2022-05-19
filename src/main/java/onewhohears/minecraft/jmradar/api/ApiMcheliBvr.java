@@ -113,6 +113,8 @@ public class ApiMcheliBvr {
 			sendError(user, "The Min Range for this Missile is "+minRange);
 			return false;
 		}
+		// TODO check if plane has enough ammo
+		// TODO check if plane is in cool down
 		MCH_WeaponParam prm = new MCH_WeaponParam();
 		prm.setPosition(ac.posX, ac.posY, ac.posZ);
 		prm.entity = ac;
@@ -135,31 +137,7 @@ public class ApiMcheliBvr {
 		return false;
 	}
 	
-	/*public void launchTestMissile(EntityPlayer user, Entity target) {
-		if (user == null || target == null) return;
-		MCH_EntityAAMissile m = new MCH_EntityAAMissile(user.worldObj, 
-				user.posX, user.posY, user.posZ, 
-				target.posX, target.posY, target.posZ, 
-				user.rotationYaw, user.rotationPitch, 2);
-		m.setName("sa-2");
-		m.shootingEntity = user;
-		//m.shootingAircraft = null;
-		m.setTargetEntity(target);
-		MCH_WeaponInfo info = new MCH_WeaponInfo(m.getName());
-		MCH_WeaponAAMissile w = new MCH_WeaponAAMissile(user.worldObj, 
-				Vec3.createVectorHelper(user.posX, user.posY, user.posZ), 
-				user.rotationYaw, user.rotationPitch,
-				m.getName(), info);
-		m.setParameterFromWeapon(w, user, user);
-		user.worldObj.spawnEntityInWorld(m);
-		Vec3 look = user.getLookVec();
-		double speed = 2;
-		m.setMotion(look.xCoord*speed, look.yCoord*speed, look.zCoord*speed);
-		missiles.add(new Missile(m));
-	}*/
-	
 	public void runBvrMissiles() {
-		if (missiles.size() > 0) System.out.println("Missiles Num = "+missiles.size());
 		for (int i = 0; i < missiles.size(); ++i) {
 			MCH_EntityAAMissile m = missiles.get(i).missile;
 			if (!(m.shootingEntity instanceof EntityPlayer)) {
@@ -182,15 +160,6 @@ public class ApiMcheliBvr {
 				continue;
 			}
 			IChunkProvider cp = p.worldObj.getChunkProvider();
-			//IChunkProvider cp = m.worldObj.getChunkProvider(); // doesn't work
-			//IChunkProvider cp = MinecraftServer.getServer().worldServers[p.dimension].getChunkProvider(); // doesn't work
-			/*int xmin = 0, xmax = 0, zmin = 0, zmax = 0; // doesn't work
-			double yawcos = Math.cos(m.rotationYaw * Math.PI / 180D);
-			double yawsin = -Math.sin(m.rotationYaw * Math.PI / 180D);
-			if (yawcos > 0) zmax = (int)Math.ceil(4*yawcos);
-			else if (yawcos < 0) zmin = (int)Math.floor(4*yawcos);
-			if (yawsin > 0) xmax = (int)Math.ceil(4*yawsin);
-			else if (yawsin < 0) xmin = (int)Math.floor(4*yawsin);*/
 			int xmin = -3, xmax = 3, zmin = -3, zmax = 3;
 			sendImportant(p, "Chunk: ["+m.chunkCoordX+", "+m.chunkCoordZ+"]");
 			sendImportant(p, "Chunks Check x["+xmin+","+xmax+"] z["+zmin+","+zmax+"]");
@@ -204,10 +173,6 @@ public class ApiMcheliBvr {
 					}
 				}
 			}
-			//double mx = m.motionX, my = m.motionY, mz = m.motionZ;
-			//double speed = (double) Math.sqrt(mx * mx + my * my + mz * mz);
-			//sendInfo(p, "Speed = "+speed);
-			//sendInfo(p, "Ticks = "+m.ticksExisted);
 			missiles.get(i).setPrevTick(m.ticksExisted);
 		}
 	}
