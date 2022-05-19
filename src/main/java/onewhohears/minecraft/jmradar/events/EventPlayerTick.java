@@ -31,8 +31,6 @@ public class EventPlayerTick {
 	}
 	
 	private int heliTimer = 0, heliRate = ApiMcheliBvr.getMaxMcheliPingAge();
-	private int defaultPingColor = 0xe3b016;
-	// TODO a system that removes old pings
 	
 	@SuppressWarnings("unchecked")
 	private void mcHeliRadar(EntityPlayer player) {
@@ -75,13 +73,13 @@ public class EventPlayerTick {
 		for (int i = 0; i < pings.size(); ++i) {
 			String waypointName = ApiRadarEntity.radarPrefix+prefix+i;
 			String waypoint = ApiWaypointManager.instance.createFormattedString(waypointName, 
-					(int)pings.get(i).posX, (int)pings.get(i).posY, (int)pings.get(i).posZ, pings.get(i).dimension, defaultPingColor, true);
+					(int)pings.get(i).posX, (int)pings.get(i).posY, (int)pings.get(i).posZ, pings.get(i).dimension, ApiRadarEntity.defaultPingColor, true);
 			ApiMcheliBvr.instance.addPing(playerName, prefix, i, pings.get(i), ApiMcheliBvr.getMaxMcheliPingAge());
 			sendMessage(player, waypoint);
 			if (playerNames != null) for (int j = 0; j < playerNames.size(); ++j) {
 				if (playerNames.get(j).equals(playerName)) continue;
 				ApiWaypointManager.instance.shareWaypointToPlayer((int)pings.get(i).posX, (int)pings.get(i).posY, (int)pings.get(i).posZ, pings.get(i).dimension, 
-						defaultPingColor, true, waypointName, playerName, playerNames.get(j));
+						ApiRadarEntity.defaultPingColor, true, waypointName, playerName, playerNames.get(j));
 				ApiMcheliBvr.instance.addPing(playerNames.get(j), prefix, i, pings.get(i), ApiMcheliBvr.getMaxMcheliPingAge());
 			}
 		}

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
+import onewhohears.minecraft.jmapi.api.ApiWaypointManager;
 
 public class PlayerPings {
 	
@@ -37,7 +38,10 @@ public class PlayerPings {
 	
 	protected void verifyPingAges() {
 		for (int i = 0; i < pings.size(); ++i) {
-			if (pings.get(i).isTooOld()) pings.remove(i--);
+			if (pings.get(i).isTooOld()) {
+				ApiWaypointManager.instance.removePlayerWaypoint(playerName, pings.get(i).getFullName());
+				pings.remove(i--);
+			}
 		}
 	}
 	

@@ -17,12 +17,12 @@ import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.chunk.IChunkProvider;
+import onewhohears.minecraft.jmradar.config.ConfigManager;
 
 public class ApiMcheliBvr {
 	
 	public static ApiMcheliBvr instance;
 	
-	private static int maxPingAge = 50; // TODO make a config value
 	private List<Missile> missiles;
 	private List<PlayerPings> playerPings;
 	
@@ -33,7 +33,7 @@ public class ApiMcheliBvr {
 	}
 	
 	public static int getMaxMcheliPingAge() {
-		return maxPingAge;
+		return ConfigManager.maxMcheliPingAge;
 	}
 	
 	public void verifyPingAges() {
