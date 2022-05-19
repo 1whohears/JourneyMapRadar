@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
-import onewhohears.minecraft.jmradar.JMRadarMod;
 
 public class PlayerPings {
 	
@@ -16,14 +15,14 @@ public class PlayerPings {
 		pings = new ArrayList<RadarPing>();
 	}
 	
-	protected void addPing(String pingName, Entity pingEntity, int maxAge) {
+	protected void addPing(String prefix, int number, Entity pingEntity, int maxAge) {
 		for (int i = 0; i < pings.size(); ++i) {
 			if (pings.get(i).getEntity().equals(pingEntity)) {
-				pings.get(i).pingName = pingName;
+				pings.get(i).setPrefixNumber(prefix, number);
 				return;
 			}
 		}
-		pings.add(new RadarPing(pingName, pingEntity, maxAge));
+		pings.add(new RadarPing(prefix, number, pingEntity, maxAge));
 	}
 	
 	public String getPlayerName() {
@@ -31,12 +30,8 @@ public class PlayerPings {
 	}
 	
 	protected void resetByPrefix(String prefix) {
-		int l = JMRadarMod.mcHeliPrefix.length();
-		int l2 = prefix.length();
 		for (int i = 0; i < pings.size(); ++i) {
-			String name = pings.get(i).pingName;
-			String p = name.substring(l, l+l2);
-			if (p.equals(prefix)) pings.remove(i--);
+			if (pings.get(i).getPrefix().equals(prefix)) pings.remove(i--);
 		}
 	}
 	
@@ -48,7 +43,7 @@ public class PlayerPings {
 	
 	public Entity getEntityByName(String pingName) {
 		for (int i = 0; i < pings.size(); ++i) {
-			if (pings.get(i).pingName.equals(pingName)) {
+			if (pings.get(i).getFullName().equals(pingName)) {
 				return pings.get(i).getEntity();
 			}
 		}
@@ -58,9 +53,17 @@ public class PlayerPings {
 	public String[] getPingNames() {
 		String[] names = new String[pings.size()];
 		for (int i = 0; i < pings.size(); ++i) {
-			names[i] = pings.get(i).pingName;
+			names[i] = pings.get(i).getFullName();
 		}
 		return names;
+	}
+	
+	public String[] getPingPrefixes() {
+		String[] prefixes = new String[pings.size()];
+		for (int i = 0; i < pings.size(); ++i) {
+			prefixes[i] = pings.get(i).getPrefix();
+		}
+		return prefixes;
 	}
 	
 }

@@ -9,6 +9,12 @@ public class ApiRadarEntity {
 	
 	public static ApiRadarEntity instance;
 	
+	public static final String radarPrefix = "!P-";
+	
+	public static int getPrefixLength() {
+		return 5;
+	}
+	
 	private ArrayList<RadarEntity> radars;
 	
 	public ApiRadarEntity() {

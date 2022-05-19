@@ -17,6 +17,7 @@ import net.minecraft.util.ChatComponentText;
 import onewhohears.minecraft.jmapi.api.ApiWaypointManager;
 import onewhohears.minecraft.jmradar.JMRadarMod;
 import onewhohears.minecraft.jmradar.api.ApiMcheliBvr;
+import onewhohears.minecraft.jmradar.api.ApiRadarEntity;
 import onewhohears.minecraft.jmradar.config.ConfigManager;
 
 public class EventPlayerTick {
@@ -68,21 +69,20 @@ public class EventPlayerTick {
 		ScorePlayerTeam team = board.getPlayersTeam(playerName);
 		List<String> playerNames = null;
 		if (team != null) playerNames = new ArrayList<String>(team.getMembershipCollection());
-		String playerKey = playerName;
-		if (playerKey.length() > 5) playerKey = playerKey.substring(0, 5);
-		ApiMcheliBvr.instance.resetPingsByPrefix(playerKey);
-		playerKey = JMRadarMod.mcHeliPrefix+playerKey;
+		String prefix = playerName;
+		if (prefix.length() > 5) prefix = prefix.substring(0, 5);
+		ApiMcheliBvr.instance.resetPingsByPrefix(prefix);
 		for (int i = 0; i < pings.size(); ++i) {
-			String waypointName = playerKey+i;
+			String waypointName = ApiRadarEntity.radarPrefix+prefix+i;
 			String waypoint = ApiWaypointManager.instance.createFormattedString(waypointName, 
 					(int)pings.get(i).posX, (int)pings.get(i).posY, (int)pings.get(i).posZ, pings.get(i).dimension, defaultPingColor, true);
-			ApiMcheliBvr.instance.addPing(playerName, waypointName, pings.get(i), ApiMcheliBvr.getMaxMcheliPingAge());
+			ApiMcheliBvr.instance.addPing(playerName, prefix, i, pings.get(i), ApiMcheliBvr.getMaxMcheliPingAge());
 			sendMessage(player, waypoint);
 			if (playerNames != null) for (int j = 0; j < playerNames.size(); ++j) {
 				if (playerNames.get(j).equals(playerName)) continue;
 				ApiWaypointManager.instance.shareWaypointToPlayer((int)pings.get(i).posX, (int)pings.get(i).posY, (int)pings.get(i).posZ, pings.get(i).dimension, 
 						defaultPingColor, true, waypointName, playerName, playerNames.get(j));
-				ApiMcheliBvr.instance.addPing(playerNames.get(j), waypointName, pings.get(i), ApiMcheliBvr.getMaxMcheliPingAge());
+				ApiMcheliBvr.instance.addPing(playerNames.get(j), prefix, i, pings.get(i), ApiMcheliBvr.getMaxMcheliPingAge());
 			}
 		}
 	}

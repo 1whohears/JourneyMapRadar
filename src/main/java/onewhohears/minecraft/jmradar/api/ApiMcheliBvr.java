@@ -48,14 +48,17 @@ public class ApiMcheliBvr {
 		}
 	}
 	
-	public void addPing(String playerName, String pingName, Entity pingEntity, int maxAge) {
+	public void addPing(String playerName, String prefix, int number, Entity pingEntity, int maxAge) {
+		if (prefix.length() > ApiRadarEntity.getPrefixLength()) prefix = prefix.substring(0, ApiRadarEntity.getPrefixLength());
 		for (int i = 0; i < playerPings.size(); ++i) {
 			if (playerPings.get(i).getPlayerName().equals(playerName)) {
-				playerPings.get(i).addPing(pingName, pingEntity, maxAge);
+				playerPings.get(i).addPing(prefix, number, pingEntity, maxAge);
 				return;
 			}
 		}
-		playerPings.add(new PlayerPings(playerName));
+		PlayerPings p = new PlayerPings(playerName);
+		p.addPing(prefix, number, pingEntity, maxAge);
+		playerPings.add(p);
 	}
 	
 	public Entity getPingEntity(String playerName, String pingName) {
@@ -71,6 +74,15 @@ public class ApiMcheliBvr {
 		for (int i = 0; i < playerPings.size(); ++i) {
 			if (playerPings.get(i).getPlayerName().equals(playerName)) {
 				return playerPings.get(i).getPingNames();
+			}
+		}
+		return new String[0];
+	}
+	
+	public String[] getPlayerPrefixes(String playerName) {
+		for (int i = 0; i < playerPings.size(); ++i) {
+			if (playerPings.get(i).getPlayerName().equals(playerName)) {
+				return playerPings.get(i).getPingPrefixes();
 			}
 		}
 		return new String[0];

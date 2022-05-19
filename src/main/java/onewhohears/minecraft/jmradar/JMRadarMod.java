@@ -13,11 +13,8 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.event.FMLServerStoppedEvent;
 import cpw.mods.fml.common.network.FMLEventChannel;
 import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.relauncher.Side;
-import net.minecraftforge.client.ClientCommandHandler;
 import onewhohears.minecraft.jmradar.api.ApiMcheliBvr;
 import onewhohears.minecraft.jmradar.api.ApiRadarEntity;
-import onewhohears.minecraft.jmradar.command.JMBvrCommand;
 import onewhohears.minecraft.jmradar.command.JMRadarCommand;
 import onewhohears.minecraft.jmradar.config.ConfigManager;
 import onewhohears.minecraft.jmradar.events.EventPlayerTick;
@@ -28,7 +25,6 @@ import onewhohears.minecraft.jmradar.events.EventServerTick;
 public class JMRadarMod {
 	
 	public static boolean mcHeliRadar = true;
-	public static final String mcHeliPrefix = "!P-";
 	
 	public static final String MOD_ID = "jmradar";
 	public static final String MOD_NAME = "Journey Map Radar 1.7.10";
@@ -57,9 +53,6 @@ public class JMRadarMod {
     
     @EventHandler
     public void init(FMLInitializationEvent event) {
-    	if (event.getSide() == Side.CLIENT) {
-        	ClientCommandHandler.instance.registerCommand(new JMRadarCommand());
-    	}
     	FMLCommonHandler.instance().bus().register(new EventPlayerTick());
     	FMLCommonHandler.instance().bus().register(new EventServerTick());
     }
@@ -72,7 +65,7 @@ public class JMRadarMod {
     
     @EventHandler
     public void serverStart(FMLServerStartingEvent event) {
-    	event.registerServerCommand(new JMBvrCommand());
+    	event.registerServerCommand(new JMRadarCommand());
     }
     
     @EventHandler

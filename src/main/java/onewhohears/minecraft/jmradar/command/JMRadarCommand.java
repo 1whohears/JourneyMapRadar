@@ -2,22 +2,23 @@ package onewhohears.minecraft.jmradar.command;
 
 import java.util.List;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import journeymap.client.model.Waypoint;
-import journeymap.client.waypoint.WaypointStore;
-import net.minecraft.client.Minecraft;
+import mcheli.aircraft.MCH_EntityAircraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
-import onewhohears.minecraft.jmradar.JMRadarMod;
+import onewhohears.minecraft.jmapi.api.ApiWaypointManager;
+import onewhohears.minecraft.jmradar.api.ApiMcheliBvr;
+import onewhohears.minecraft.jmradar.api.ApiRadarEntity;
 
-@SideOnly(Side.CLIENT)
 public class JMRadarCommand extends CommandBase {
 	
 	private String cmd = "radar";
+	
+	private EntityPlayer user;
 	
 	@Override
 	public String getCommandName() {
@@ -27,72 +28,101 @@ public class JMRadarCommand extends CommandBase {
 	@Override
     public boolean canCommandSenderUseCommand(ICommandSender sender) {
     	return true;
-    } 
+    }
 
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
-		return "/"+cmd+" clearpings";
+		return "/"+cmd+" shoot/clearpings/color";
 	}
 	
 	@SuppressWarnings("rawtypes")
 	@Override
 	public List addTabCompletionOptions(ICommandSender sender, String[] args) {
 		if (args.length == 1) {
-			return CommandBase.getListOfStringsMatchingLastWord(args, new String[] {"clearpings", "color"});
+			return CommandBase.getListOfStringsMatchingLastWord(args, new String[] {"shoot", "clearpings", "color"});
+		} else if (args.length == 2) {
+			if (args[0].equals("shoot")) {
+				return CommandBase.getListOfStringsMatchingLastWord(args, getPingNames(sender.getCommandSenderName()));
+			} else if (args[0].equals("color")) {
+				return CommandBase.getListOfStringsMatchingLastWord(args, getPrefixNames(sender.getCommandSenderName()));
+			} 
+			/*else if (args[0].equals("testshoot")) {
+				return CommandBase.getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames());
+			}*/
 		}
 		return null;
 	}
 	
 	@Override
 	public void processCommand(ICommandSender sender, String[] args) {
-		// make command work from server side
+		user = sender.getEntityWorld().getPlayerEntityByName(sender.getCommandSenderName());
 		if (args.length == 1) {
 			if (args[0].equals("clearpings")) clearPings();
+			else sendError("Unknown Command!");
+		} else if (args.length == 2) {
+			if (args[0].equals("shoot")) shoot(args[1]);
+			//else if (args[0].equals("testshoot")) testShoot(args[1]);
+			else sendError("Unknown Command!");
+		} else if (args.length == 3) {
+			if (args[0].equals("color")) color(args[1], args[2]);
 			else sendError("Unknown Command!");
 		} else sendError("Unknown Command!");
 	}
 	
-	private void color(String prefix, int color) {
+	private void shoot(String waypointName) {
+		Entity target = ApiMcheliBvr.instance.getPingEntity(user.getDisplayName(), waypointName);
+		if (target == null) {
+			sendError("You are not locked onto that ping!");
+			return;
+		}
+		if (!(target instanceof MCH_EntityAircraft)) {
+			sendError("You can only fire missiles at Mcheli Aircraft!");
+			return;
+		}
+		if (ApiMcheliBvr.instance.launchMcheliMissile(user, (MCH_EntityAircraft)target)) sendMessage("Missile Fired!");
+	}
+	
+	private void color(String prefix, String colorString) {
 		// TODO change color of a ping by its prefix
 	}
 	
-	/*private String[] getPingNames() {
-		Waypoint[] waypoints = WaypointStore.instance().getAll().toArray(new Waypoint[WaypointStore.instance().getAll().size()]);
-		List<String> names = new ArrayList<String>();
-		for (int i = 0; i < waypoints.length; ++i) {
-			if (waypoints[i].getName().substring(0, JMRadarMod.mcHeliPrefix.length()).equals(JMRadarMod.mcHeliPrefix)) {
-				names.add(waypoints[i].getName());
-			}
+	private void clearPings() {
+		ApiWaypointManager.instance.removePlayerWaypointByPrefix(user.getDisplayName(), ApiRadarEntity.radarPrefix);
+	}
+	
+	/*private void testShoot(String name) {
+		Entity target = user.getEntityWorld().getPlayerEntityByName(name);
+		if (target == null) {
+			sendError("That Player Doesn't Exist");
+			return;
 		}
-		return names.toArray(new String[names.size()]);
+		ApiMcheliBvr.instance.launchTestMissile(user, target);
+		sendMessage("Missile Fired!");
 	}*/
 	
-	private void clearPings() {
-		Waypoint[] waypoints = WaypointStore.instance().getAll().toArray(new Waypoint[WaypointStore.instance().getAll().size()]);
-		int removed = 0;
-		for (int i = 0; i < waypoints.length; ++i) {
-			if (waypoints[i].getName().substring(0, JMRadarMod.mcHeliPrefix.length()).equals(JMRadarMod.mcHeliPrefix)) {
-				WaypointStore.instance().remove(waypoints[i]);
-				++removed;
-			}
-		}
-		sendMessage("Removed "+removed+" Pings!");
+	private String[] getPingNames(String playerName) {
+		return ApiMcheliBvr.instance.getPlayerPingNames(playerName);
+	}
+	
+	private String[] getPrefixNames(String playerName) {
+		return ApiMcheliBvr.instance.getPlayerPrefixes(playerName);
 	}
 	
 	private void sendMessage(String message) {
+		if (user == null) return;
 		ChatComponentText chat = new ChatComponentText(message);
 		ChatStyle style = new ChatStyle();
 		style.setColor(EnumChatFormatting.YELLOW);
 		chat.setChatStyle(style);
-		Minecraft.getMinecraft().thePlayer.addChatMessage(chat);
+		user.addChatMessage(chat);
 	}
 	
 	private void sendError(String message) {
+		if (user == null) return;
 		ChatComponentText chat = new ChatComponentText(message);
 		ChatStyle style = new ChatStyle();
 		style.setColor(EnumChatFormatting.RED);
 		chat.setChatStyle(style);
-		Minecraft.getMinecraft().thePlayer.addChatMessage(chat);
+		user.addChatMessage(chat);
 	}
-
 }
