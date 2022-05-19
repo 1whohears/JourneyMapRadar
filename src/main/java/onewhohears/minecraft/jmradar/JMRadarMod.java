@@ -29,7 +29,7 @@ public class JMRadarMod {
 	public static final String MOD_ID = "jmradar";
 	public static final String MOD_NAME = "Journey Map Radar 1.7.10";
 	public static final String MOD_VERSION = "0.3.0";
-	public static final String MOD_DEPENDENCIES = "journeymap, mcheli, journeymap_api_1.7.10@[0.8.4)";
+	public static final String MOD_DEPENDENCIES = "required-after:journeymap;required-after:mcheli@[1.0.3,);required-after:journeymap_api_1.7.10@[0.8.4,)";
 	
     public static Logger logger;
     

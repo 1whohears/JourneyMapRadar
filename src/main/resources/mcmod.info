@@ -12,7 +12,7 @@
     "logoFile": "",
     "screenshots": [],
     "dependants":[],
-    "dependencies": ["journeymap_api_1.7.10@[0.8.4), mcheli, journeymap"],
+    "dependencies": ["journeymap","mcheli@[1.0.3,)","journeymap_api_1.7.10@[0.8.4,)"],
     "requiredMods": ["Forge@[10.13.4.1558,)"],
     "useDependencyInformation": true
   }]
