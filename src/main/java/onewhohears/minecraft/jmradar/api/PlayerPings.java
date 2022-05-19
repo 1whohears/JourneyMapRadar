@@ -54,6 +54,13 @@ public class PlayerPings {
 		return null;
 	}
 	
+	public boolean isTrackingEntity(Entity entity) {
+		for (int i = 0; i < pings.size(); ++i) {
+			if (pings.get(i).getEntity().equals(entity)) return true;
+		}
+		return false;
+	}
+	
 	public String[] getPingNames() {
 		String[] names = new String[pings.size()];
 		for (int i = 0; i < pings.size(); ++i) {

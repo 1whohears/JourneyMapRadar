@@ -68,6 +68,15 @@ public class ApiMcheliBvr {
 		return null;
 	}
 	
+	public boolean isPlayerTrackingEntity(String playerName, Entity entity) {
+		for (int i = 0; i < playerPings.size(); ++i) {
+			if (playerPings.get(i).getPlayerName().equals(playerName)) {
+				return playerPings.get(i).isTrackingEntity(entity);
+			}
+		}
+		return false;
+	}
+	
 	public String[] getPlayerPingNames(String playerName) {
 		for (int i = 0; i < playerPings.size(); ++i) {
 			if (playerPings.get(i).getPlayerName().equals(playerName)) {
@@ -148,18 +157,27 @@ public class ApiMcheliBvr {
 				continue;
 			}
 			EntityPlayer p = (EntityPlayer)m.shootingEntity;
-			if (m.ticksExisted > 600) {
-				m.setDead();
+			if (m.ticksExisted > ConfigManager.maxMcheliBvrMissileAge) {
 				sendError(p, "Missile Ran Out of Fuel");
-			}
-			if (missiles.get(i).didTicksRepeat()) {
+				missiles.remove(i--);
 				m.setDead();
+				continue;
+			} 
+			if (missiles.get(i).didTicksRepeat()) {
 				sendError(p, "Missile Glitched for Unknown Reason Sorry!");
+				m.setDead();
+				missiles.remove(i--);
+				continue;
 			}
-			// TODO die if lost lock unless within a range
+			if (m.getDistanceToEntity(m.targetEntity) > 120 && !isPlayerTrackingEntity(p.getDisplayName(), m.targetEntity)) {
+				sendError(p, "Missile lost track of it's target.");
+				m.setDead();
+				missiles.remove(i--);
+				continue;
+			}
 			if (m.isDead) {
 				missiles.remove(i--);
-				sendError(p, "Missile Died");
+				sendImportant(p, "Missile Exploded or Crashed");
 				continue;
 			}
 			IChunkProvider cp = p.worldObj.getChunkProvider();
