@@ -17,7 +17,7 @@ import onewhohears.minecraft.jmradar.JMRadarMod;
 @SideOnly(Side.CLIENT)
 public class JMRadarCommand extends CommandBase {
 	
-	private String cmd = "jmradar";
+	private String cmd = "radar";
 	
 	@Override
 	public String getCommandName() {
@@ -38,18 +38,34 @@ public class JMRadarCommand extends CommandBase {
 	@Override
 	public List addTabCompletionOptions(ICommandSender sender, String[] args) {
 		if (args.length == 1) {
-			return CommandBase.getListOfStringsMatchingLastWord(args, new String[] {"clearpings"});
+			return CommandBase.getListOfStringsMatchingLastWord(args, new String[] {"clearpings", "color"});
 		}
 		return null;
 	}
 	
 	@Override
 	public void processCommand(ICommandSender sender, String[] args) {
+		// make command work from server side
 		if (args.length == 1) {
 			if (args[0].equals("clearpings")) clearPings();
 			else sendError("Unknown Command!");
 		} else sendError("Unknown Command!");
 	}
+	
+	private void color(String prefix, int color) {
+		// TODO change color of a ping by its prefix
+	}
+	
+	/*private String[] getPingNames() {
+		Waypoint[] waypoints = WaypointStore.instance().getAll().toArray(new Waypoint[WaypointStore.instance().getAll().size()]);
+		List<String> names = new ArrayList<String>();
+		for (int i = 0; i < waypoints.length; ++i) {
+			if (waypoints[i].getName().substring(0, JMRadarMod.mcHeliPrefix.length()).equals(JMRadarMod.mcHeliPrefix)) {
+				names.add(waypoints[i].getName());
+			}
+		}
+		return names.toArray(new String[names.size()]);
+	}*/
 	
 	private void clearPings() {
 		Waypoint[] waypoints = WaypointStore.instance().getAll().toArray(new Waypoint[WaypointStore.instance().getAll().size()]);

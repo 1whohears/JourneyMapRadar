@@ -8,6 +8,7 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.Side;
 import mcheli.aircraft.MCH_AircraftInfo;
 import mcheli.aircraft.MCH_EntityAircraft;
+import mcheli.wrapper.W_WorldFunc;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.scoreboard.ScorePlayerTeam;
@@ -15,6 +16,7 @@ import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.ChatComponentText;
 import onewhohears.minecraft.jmapi.api.ApiWaypointManager;
 import onewhohears.minecraft.jmradar.JMRadarMod;
+import onewhohears.minecraft.jmradar.api.ApiMcheliBvr;
 import onewhohears.minecraft.jmradar.config.ConfigManager;
 
 public class EventPlayerTick {
@@ -22,12 +24,13 @@ public class EventPlayerTick {
 	@SubscribeEvent
 	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
 		if (event.side != Side.SERVER) return;
-		if (event.phase != TickEvent.Phase.END) return;
+		if (event.phase != TickEvent.Phase.START) return;
 		if (event.player == null) return;
 		if (JMRadarMod.mcHeliRadar) mcHeliRadar(event.player);
 	}
 	
-	private int heliTimer = 0, heliRate = 40;
+	private int heliTimer = 0, heliRate = ApiMcheliBvr.getMaxMcheliPingAge();
+	private int defaultPingColor = 0xe3b016;
 	// TODO a system that removes old pings
 	
 	@SuppressWarnings("unchecked")
@@ -58,6 +61,7 @@ public class EventPlayerTick {
 			if (player.isOnSameTeam((EntityPlayer)ping.riddenByEntity)) continue;
 			if (!player.canEntityBeSeen(ping)) continue;
 			pings.add(ping);
+			W_WorldFunc.MOD_playSoundAtEntity(ping.riddenByEntity, "locked", 1.0F, 1.0F);
 		}
 		String playerName = player.getDisplayName();
 		Scoreboard board = Minecraft.getMinecraft().theWorld.getScoreboard();
@@ -65,17 +69,20 @@ public class EventPlayerTick {
 		List<String> playerNames = null;
 		if (team != null) playerNames = new ArrayList<String>(team.getMembershipCollection());
 		String playerKey = playerName;
-		if (playerKey.length() > 4) playerKey = playerKey.substring(0, 5);
+		if (playerKey.length() > 5) playerKey = playerKey.substring(0, 5);
+		ApiMcheliBvr.instance.resetPingsByPrefix(playerKey);
 		playerKey = JMRadarMod.mcHeliPrefix+playerKey;
 		for (int i = 0; i < pings.size(); ++i) {
-			String waypoint = ApiWaypointManager.instance.createFormattedString(playerKey+i, 
-					(int)pings.get(i).posX, (int)pings.get(i).posY, (int)pings.get(i).posZ, pings.get(i).dimension, 0xe3b016, true);
+			String waypointName = playerKey+i;
+			String waypoint = ApiWaypointManager.instance.createFormattedString(waypointName, 
+					(int)pings.get(i).posX, (int)pings.get(i).posY, (int)pings.get(i).posZ, pings.get(i).dimension, defaultPingColor, true);
+			ApiMcheliBvr.instance.addPing(playerName, waypointName, pings.get(i), ApiMcheliBvr.getMaxMcheliPingAge());
 			sendMessage(player, waypoint);
 			if (playerNames != null) for (int j = 0; j < playerNames.size(); ++j) {
 				if (playerNames.get(j).equals(playerName)) continue;
-				String name = playerKey+i;
 				ApiWaypointManager.instance.shareWaypointToPlayer((int)pings.get(i).posX, (int)pings.get(i).posY, (int)pings.get(i).posZ, pings.get(i).dimension, 
-						0xe3b016, true, name, playerName, playerNames.get(j));
+						defaultPingColor, true, waypointName, playerName, playerNames.get(j));
+				ApiMcheliBvr.instance.addPing(playerNames.get(j), waypointName, pings.get(i), ApiMcheliBvr.getMaxMcheliPingAge());
 			}
 		}
 	}
