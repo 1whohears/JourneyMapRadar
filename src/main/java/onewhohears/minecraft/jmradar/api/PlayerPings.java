@@ -25,7 +25,7 @@ public class PlayerPings {
 	}
 	
 	protected void verifyPingAges() {
-		System.out.println(playerName+" PING AGES");
+		if (pings.size() > 0) System.out.println(playerName+" PING AGES");
 		for (int i = 0; i < pings.size(); ++i) {
 			String name = pings.get(i).getFullName();
 			System.out.println(name+" age = "+pings.get(i).getAge());
