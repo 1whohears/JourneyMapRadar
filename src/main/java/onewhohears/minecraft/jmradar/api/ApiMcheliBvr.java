@@ -40,12 +40,6 @@ public class ApiMcheliBvr {
 		}
 	}
 	
-	public void resetPingsByPrefix(String prefix) {
-		/*for (int i = 0; i < playerPings.size(); ++i) {
-			playerPings.get(i).resetByPrefix(prefix);
-		}*/
-	}
-	
 	public void addPing(String playerName, String prefix, int number, Entity pingEntity, int maxAge) {
 		if (prefix.length() > ApiRadarEntity.getPrefixLength()) prefix = prefix.substring(0, ApiRadarEntity.getPrefixLength());
 		for (int i = 0; i < playerPings.size(); ++i) {

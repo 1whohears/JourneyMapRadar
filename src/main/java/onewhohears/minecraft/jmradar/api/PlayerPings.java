@@ -17,23 +17,11 @@ public class PlayerPings {
 	}
 	
 	protected void addPing(String prefix, int number, Entity pingEntity, int maxAge) {
-		for (int i = 0; i < pings.size(); ++i) {
-			if (pings.get(i).getEntity().equals(pingEntity)) {
-				//pings.get(i).resetPrefixNumber(prefix, number);
-				return;
-			}
-		}
-		pings.add(new RadarPing(prefix, number, pingEntity, maxAge));
+		if (!isTrackingEntity(pingEntity)) pings.add(new RadarPing(prefix, number, pingEntity, maxAge));
 	}
 	
 	public String getPlayerName() {
 		return playerName;
-	}
-	
-	protected void resetByPrefix(String prefix) {
-		/*for (int i = 0; i < pings.size(); ++i) {
-			if (pings.get(i).getPrefix().equals(prefix)) pings.remove(i--);
-		}*/
 	}
 	
 	protected void verifyPingAges() {

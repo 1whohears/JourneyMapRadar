@@ -229,8 +229,7 @@ public class RadarEntity {
 			pings.add(ping);
 		}
 		String prefix = id;
-		if (prefix.length() > 5) prefix = prefix.substring(0, 5);
-		ApiMcheliBvr.instance.resetPingsByPrefix(prefix);
+		if (prefix.length() > ApiRadarEntity.getPrefixLength()) prefix = prefix.substring(0, ApiRadarEntity.getPrefixLength());
 		for (int i = 0; i < pings.size(); ++i) {
 			String waypointName = ApiRadarEntity.radarPrefix+prefix+i;
 			String waypoint = ApiWaypointManager.instance.createFormattedString(waypointName, 
@@ -261,8 +260,7 @@ public class RadarEntity {
 			pings.add(ping);
 		}
 		String prefix = id;
-		if (prefix.length() > 5) prefix = prefix.substring(0, 5);
-		ApiMcheliBvr.instance.resetPingsByPrefix(prefix);
+		if (prefix.length() > ApiRadarEntity.getPrefixLength()) prefix = prefix.substring(0, ApiRadarEntity.getPrefixLength());
 		for (int i = 0; i < pings.size(); ++i) {
 			String waypointName = ApiRadarEntity.radarPrefix+prefix+i;
 			String waypoint = ApiWaypointManager.instance.createFormattedString(waypointName, 
@@ -285,8 +283,7 @@ public class RadarEntity {
 			pings.add(ping);
 		}
 		String prefix = id;
-		if (prefix.length() > 5) prefix = prefix.substring(0, 5);
-		ApiMcheliBvr.instance.resetPingsByPrefix(prefix);
+		if (prefix.length() > ApiRadarEntity.getPrefixLength()) prefix = prefix.substring(0, ApiRadarEntity.getPrefixLength());
 		for (int i = 0; i < pings.size(); ++i) {
 			String waypointName = ApiRadarEntity.radarPrefix+prefix+i;
 			String waypoint = ApiWaypointManager.instance.createFormattedString(waypointName, 
