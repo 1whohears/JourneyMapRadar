@@ -9,10 +9,10 @@ import cpw.mods.fml.relauncher.Side;
 import mcheli.aircraft.MCH_AircraftInfo;
 import mcheli.aircraft.MCH_EntityAircraft;
 import mcheli.wrapper.W_WorldFunc;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Scoreboard;
+import net.minecraft.server.MinecraftServer;
 import onewhohears.minecraft.jmradar.JMRadarMod;
 import onewhohears.minecraft.jmradar.api.ApiMcheliBvr;
 import onewhohears.minecraft.jmradar.api.ApiRadarEntity;
@@ -61,7 +61,7 @@ public class EventPlayerTick {
 			W_WorldFunc.MOD_playSoundAtEntity(ping.riddenByEntity, "locked", 1.0F, 1.0F);
 		}
 		String playerName = player.getDisplayName();
-		Scoreboard board = Minecraft.getMinecraft().theWorld.getScoreboard();
+		Scoreboard board = MinecraftServer.getServer().worldServerForDimension(0).getScoreboard();
 		ScorePlayerTeam team = board.getPlayersTeam(playerName);
 		List<String> playerNames = null;
 		if (team != null) playerNames = new ArrayList<String>(team.getMembershipCollection());
