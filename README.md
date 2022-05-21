@@ -15,7 +15,7 @@ Players on the same team automatically share radar pings.
 
 You can modify the range and stealth values for each plane in the config file. (**/config/configjmradar.cfg)
 ### Beyond Player Render Distance Missiles
-You can now use the `/radar shoot` to launch a guided missile from your plane at an enemy outside your render distance. The missiles will load new chunks around them until they reach their target or die if your radar looses track of them.
+You can now use the `/radar shoot` command to launch a guided missile from your plane at an enemy outside your render distance. The missiles will load new chunks around them until they reach their target or die if your radar looses track of them.
 
 Be warned that this feature is new and I'm assuming there are a lot of unforeseen issues. 
 ### API 
