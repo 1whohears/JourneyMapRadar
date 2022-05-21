@@ -11,6 +11,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import onewhohears.minecraft.jmradar.api.ApiMcheliBvr;
+import onewhohears.minecraft.jmradar.config.ConfigManager;
 
 public class JMRadarCommand extends CommandBase {
 	
@@ -61,6 +62,10 @@ public class JMRadarCommand extends CommandBase {
 	}
 	
 	private void shoot(String waypointName) {
+		if (!ConfigManager.bvrMode) {
+			sendError("BVR Mode is not Enabled!");
+			return;
+		}
 		Entity target = ApiMcheliBvr.instance.getPingEntity(user.getDisplayName(), waypointName);
 		if (target == null) {
 			sendError("You are not locked onto that ping!");

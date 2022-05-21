@@ -17,7 +17,6 @@ public class EventServerTick {
 			ApiRadarEntity.instance.runEntityRadars();
 		}
 		if (ApiMcheliBvr.instance != null) {
-			ApiMcheliBvr.instance.verifyPingAges();
 			ApiMcheliBvr.instance.runBvrMissiles();
 		}
 	}

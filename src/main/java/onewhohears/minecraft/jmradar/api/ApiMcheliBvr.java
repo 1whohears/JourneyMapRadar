@@ -34,12 +34,6 @@ public class ApiMcheliBvr {
 		return ConfigManager.maxMcheliPingAge;
 	}
 	
-	public void verifyPingAges() {
-		for (int i = 0; i < playerPings.size(); ++i) {
-			playerPings.get(i).verifyPingAges();
-		}
-	}
-	
 	public void addPing(String playerName, String prefix, Entity pingEntity, int maxAge, int color) {
 		if (prefix.length() > ApiRadarEntity.getPrefixLength()) prefix = prefix.substring(0, ApiRadarEntity.getPrefixLength());
 		for (int i = 0; i < playerPings.size(); ++i) {
@@ -91,6 +85,7 @@ public class ApiMcheliBvr {
 	
 	@SuppressWarnings("unchecked")
 	public boolean launchMcheliMissile(EntityPlayer user, MCH_EntityAircraft target) {
+		if (!ConfigManager.bvrMode) return false;
 		if (user == null || target == null) return false;
 		if (user.ridingEntity == null || !(user.ridingEntity instanceof MCH_EntityAircraft)) {
 			sendError(user, "You are not Riding an Mcheli Aircraft!");
@@ -144,6 +139,8 @@ public class ApiMcheliBvr {
 	}
 	
 	public void runBvrMissiles() {
+		if (!ConfigManager.bvrMode) return;
+		verifyPingAges();
 		for (int i = 0; i < missiles.size(); ++i) {
 			MCH_EntityAAMissile m = missiles.get(i).missile;
 			if (!(m.shootingEntity instanceof EntityPlayer)) {
@@ -189,6 +186,12 @@ public class ApiMcheliBvr {
 				}
 			}
 			missiles.get(i).setPrevTick(m.ticksExisted);
+		}
+	}
+	
+	private void verifyPingAges() {
+		for (int i = 0; i < playerPings.size(); ++i) {
+			playerPings.get(i).verifyPingAges();
 		}
 	}
 	

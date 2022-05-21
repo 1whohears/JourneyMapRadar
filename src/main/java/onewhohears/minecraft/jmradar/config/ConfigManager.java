@@ -16,6 +16,7 @@ public class ConfigManager {
 	public static final String GENERAL_MCHELI_RADAR = "General Mcheli Radar";
 	public static int maxMcheliPingAge;
 	public static int maxMcheliBvrMissileAge;
+	public static boolean bvrMode;
 	
 	public static final String CATEGORY_MCHELI_RANGE = "Mcheli Range";
 	public static final float minRange = 0, maxRange = 100000;
@@ -43,6 +44,8 @@ public class ConfigManager {
 		maxMcheliBvrMissileAge = config.getInt("Max Mcheli BVR Missile Age", GENERAL_MCHELI_RADAR, 600, 0, 4800, 
 				"Ticks before an Mcheli BVR Missile Dies by running out of fuel. "
 				+ "The Mcheli Mod Might kill the missile before your value anyway.");
+		bvrMode = config.getBoolean("Beyond Visual Range Mode", GENERAL_MCHELI_RADAR, true, 
+				"Use a command to launch missiles at radar pings.");
 		defaultMcheliRange = config.getFloat("Default Mcheli Range", CATEGORY_MCHELI_RANGE, 800f, minRange, maxRange, 
 				"The default range of an mcheli aircraft radar.");
 		mcheliRangeStrings = config.getStringList("Aircraft Range Overrides", CATEGORY_MCHELI_RANGE, getDefaultRanges(), 
