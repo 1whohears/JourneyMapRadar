@@ -14,6 +14,10 @@ If a player rides an mcheli aircraft that has an "entity radar" mode, yellow way
 Players on the same team automatically share radar pings.
 
 You can modify the range and stealth values for each plane in the config file. (**/config/configjmradar.cfg)
+### Beyond Player Render Distance Missiles
+You can now use the `/radar shoot` to launch a guided missile from your plane at an enemy outside your render distance. The missiles will load new chunks around them until they reach their target or die if your radar looses track of them.
+
+Be warned that this feature is new and I'm assuming there are a lot of unforeseen issues. 
 ### API 
 Register an entity with ApiRadarEntity.instance.addRadar(id, range, radarRate, targetType, radarEntity, playerEntity, infoRange) to have an entity send radar data to registered players. Every radar must have a unique string id. 
 
@@ -27,4 +31,5 @@ if (radar == null) radar = apiinstance.addRadar("testid", 1000, 20, 1, npc.getMC
 radar.addPlayer(world.getPlayer("example_name_2").getMCEntity());
 ```
 ## Commands
-`/jmradar clearpings` removes all ping waypoints.
+`/radar shoot <radar waypoint name>`
+`/clearpings` removes all ping waypoints.
