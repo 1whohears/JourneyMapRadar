@@ -10,6 +10,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.scoreboard.ScorePlayerTeam;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import onewhohears.minecraft.jmradar.config.ConfigManager;
 
@@ -19,6 +21,7 @@ public class RadarEntity {
 	private double range;
 	private EntityLivingBase radar; // TODO make this a normal entity and find an alternative to EntityLivingBase.canEntityBeSeen()
 	private List<EntityPlayerMP> players = new ArrayList<EntityPlayerMP>();
+	private List<ScorePlayerTeam> teams = new ArrayList<ScorePlayerTeam>();
 	private boolean active = true;
 	private int radarTimer, radarRate;
 	private double infoRange = 10;
@@ -190,6 +193,28 @@ public class RadarEntity {
 		}
 	}
 	
+	/**
+	 * Add a scoreboard team for the radar entity to send pings to
+	 * @param teamName
+	 */
+	public void addScoreboardTeam(String teamName) {
+		ScorePlayerTeam t = MinecraftServer.getServer().worldServerForDimension(0).getScoreboard().getTeam(teamName);
+		if (t != null && !teams.contains(t)) teams.add(t);
+	}
+	
+	/**
+	 * Stops sending pings to this team
+	 * @param teamName
+	 */
+	public void removeScoreboardTeam(String teamName) {
+		for (int i = 0; i < teams.size(); ++i) {
+			if (teams.get(i).getRegisteredName().equals(teamName)) {
+				teams.remove(i);
+				return;
+			}
+		}
+	}
+	
 	private void sendPlayerMessage(int index, String message) {
 		if (index > players.size() || index < 0) return;
 		if (radar.getDistanceToEntity(players.get(index)) > infoRange) return;
@@ -202,6 +227,14 @@ public class RadarEntity {
 			ApiRadarEntity.instance.removeRadar(id);
 			return;
 		}
+		boolean isPlayerNear = false;
+		for (int i = 0; i < players.size(); ++i) {
+			if (players.get(i).getDistanceToEntity(radar) <= infoRange) {
+				isPlayerNear = true;
+				break;
+			}
+		}
+		if (!isPlayerNear) return;
 		if (!active) return;
 		if (radarTimer > 0) { --radarTimer; return; }
 		if (radarTimer <= 0) radarTimer = radarRate;
@@ -252,6 +285,7 @@ public class RadarEntity {
 			if (players.get(0).isOnSameTeam((EntityPlayer)ping.riddenByEntity)) continue;
 			if (!radar.canEntityBeSeen(ping)) continue;
 			pings.add(ping);
+			W_WorldFunc.MOD_playSoundAtEntity(ping.riddenByEntity, "locked", 1.0F, 1.0F);
 		}
 		String prefix = id;
 		if (prefix.length() > ApiRadarEntity.getPrefixLength()) prefix = prefix.substring(0, ApiRadarEntity.getPrefixLength());
@@ -276,14 +310,21 @@ public class RadarEntity {
 		for (int i = 0; i < pings.size(); ++i) updatePlayersPings(pings.get(i), prefix);
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void updatePlayersPings(Entity ping, String prefix) {
-		boolean playerNearBy = false;
+		List<String> ignore = new ArrayList<String>();
 		for (int i = 0; i < players.size(); ++i) {
+			ignore.add(players.get(i).getDisplayName());
 			if (players.get(i).getDistanceToEntity(radar) > infoRange) continue;
 			ApiMcheliBvr.instance.addPing(players.get(i).getDisplayName(), prefix, ping, radarRate, defaultColor);
-			playerNearBy = true;
 		}
-		if (playerNearBy && ping.riddenByEntity != null) W_WorldFunc.MOD_playSoundAtEntity(ping.riddenByEntity, "locked", 1.0F, 1.0F);
+		for (int i = 0; i < teams.size(); ++i) {
+			List<String> teamPlayerNames = new ArrayList<String>(teams.get(i).getMembershipCollection());
+			for (int j = 0; j < teamPlayerNames.size(); ++j) {
+				if (ignore.contains(teamPlayerNames.get(j))) continue;
+				ApiMcheliBvr.instance.addPing(teamPlayerNames.get(i), prefix, ping, radarRate, defaultColor);
+			}
+		}
 	}
 	
 }
