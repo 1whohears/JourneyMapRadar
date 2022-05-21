@@ -32,4 +32,5 @@ radar.addPlayer(world.getPlayer("example_name_2").getMCEntity());
 ```
 ## Commands
 `/radar shoot <radar waypoint name>`
+
 `/clearpings` removes all ping waypoints.
