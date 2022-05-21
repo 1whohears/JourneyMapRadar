@@ -27,7 +27,7 @@ public class RadarPing {
 	}
 	
 	protected boolean isTooOld() {
-		return age++ >= maxAge;
+		return age++ > maxAge;
 	}
 	
 	public String getFullName() {
@@ -42,9 +42,7 @@ public class RadarPing {
 		return number;
 	}
 	
-	protected void resetPrefixNumber(String prefix, int number) {
-		this.prefix = prefix;
-		this.number = number;
+	protected void resetAge() {
 		this.age = 0;
 	}
 	

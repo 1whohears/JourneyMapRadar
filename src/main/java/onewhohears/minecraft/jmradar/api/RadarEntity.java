@@ -11,7 +11,6 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText;
-import onewhohears.minecraft.jmapi.api.ApiWaypointManager;
 import onewhohears.minecraft.jmradar.config.ConfigManager;
 
 public class RadarEntity {
@@ -230,12 +229,7 @@ public class RadarEntity {
 		}
 		String prefix = id;
 		if (prefix.length() > ApiRadarEntity.getPrefixLength()) prefix = prefix.substring(0, ApiRadarEntity.getPrefixLength());
-		for (int i = 0; i < pings.size(); ++i) {
-			String waypointName = ApiRadarEntity.radarPrefix+prefix+i;
-			String waypoint = ApiWaypointManager.instance.createFormattedString(waypointName, 
-					(int)pings.get(i).posX, (int)pings.get(i).posY, (int)pings.get(i).posZ, pings.get(i).dimension, defaultColor, true);
-			updatePlayersPings(waypoint, pings.get(i), prefix, i);
-		}
+		for (int i = 0; i < pings.size(); ++i) updatePlayersPings(pings.get(i), prefix);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -261,12 +255,7 @@ public class RadarEntity {
 		}
 		String prefix = id;
 		if (prefix.length() > ApiRadarEntity.getPrefixLength()) prefix = prefix.substring(0, ApiRadarEntity.getPrefixLength());
-		for (int i = 0; i < pings.size(); ++i) {
-			String waypointName = ApiRadarEntity.radarPrefix+prefix+i;
-			String waypoint = ApiWaypointManager.instance.createFormattedString(waypointName, 
-					(int)pings.get(i).posX, (int)pings.get(i).posY, (int)pings.get(i).posZ, pings.get(i).dimension, defaultColor, true);
-			updatePlayersPings(waypoint, pings.get(i), prefix, i);
-		}
+		for (int i = 0; i < pings.size(); ++i) updatePlayersPings(pings.get(i), prefix);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -284,20 +273,14 @@ public class RadarEntity {
 		}
 		String prefix = id;
 		if (prefix.length() > ApiRadarEntity.getPrefixLength()) prefix = prefix.substring(0, ApiRadarEntity.getPrefixLength());
-		for (int i = 0; i < pings.size(); ++i) {
-			String waypointName = ApiRadarEntity.radarPrefix+prefix+i;
-			String waypoint = ApiWaypointManager.instance.createFormattedString(waypointName, 
-					(int)pings.get(i).posX, (int)pings.get(i).posY, (int)pings.get(i).posZ, pings.get(i).dimension, defaultColor, true);
-			updatePlayersPings(waypoint, pings.get(i), prefix, i);
-		}
+		for (int i = 0; i < pings.size(); ++i) updatePlayersPings(pings.get(i), prefix);
 	}
 	
-	private void updatePlayersPings(String waypoint, Entity ping, String prefix, int number) {
+	private void updatePlayersPings(Entity ping, String prefix) {
 		boolean playerNearBy = false;
 		for (int i = 0; i < players.size(); ++i) {
 			if (players.get(i).getDistanceToEntity(radar) > infoRange) continue;
-			sendPlayerMessage(i, waypoint);
-			ApiMcheliBvr.instance.addPing(players.get(i).getDisplayName(), prefix, number, ping, radarRate);
+			ApiMcheliBvr.instance.addPing(players.get(i).getDisplayName(), prefix, ping, radarRate);
 			playerNearBy = true;
 		}
 		if (playerNearBy && ping.riddenByEntity != null) W_WorldFunc.MOD_playSoundAtEntity(ping.riddenByEntity, "locked", 1.0F, 1.0F);

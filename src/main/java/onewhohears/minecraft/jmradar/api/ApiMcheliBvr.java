@@ -40,16 +40,16 @@ public class ApiMcheliBvr {
 		}
 	}
 	
-	public void addPing(String playerName, String prefix, int number, Entity pingEntity, int maxAge) {
+	public void addPing(String playerName, String prefix, Entity pingEntity, int maxAge) {
 		if (prefix.length() > ApiRadarEntity.getPrefixLength()) prefix = prefix.substring(0, ApiRadarEntity.getPrefixLength());
 		for (int i = 0; i < playerPings.size(); ++i) {
 			if (playerPings.get(i).getPlayerName().equals(playerName)) {
-				playerPings.get(i).addPing(prefix, number, pingEntity, maxAge);
+				playerPings.get(i).addPing(prefix, pingEntity, maxAge);
 				return;
 			}
 		}
 		PlayerPings p = new PlayerPings(playerName);
-		p.addPing(prefix, number, pingEntity, maxAge);
+		p.addPing(prefix, pingEntity, maxAge);
 		playerPings.add(p);
 	}
 	
@@ -111,7 +111,7 @@ public class ApiMcheliBvr {
 			sendError(user, "Can't use weapon right now!");
 			return false; 
 		}
-		double minRange = 2000;
+		double minRange = 2000; // TODO give all missiles a range by name
 		if (user.getDistanceToEntity(target) > minRange) {
 			sendError(user, "The Min Range for this Missile is "+minRange);
 			return false;
@@ -120,7 +120,6 @@ public class ApiMcheliBvr {
 			sendError(user, "Not Enough Ammo!"); // TODO check if plane has enough ammo
 			return false;
 		}
-		
 		// TODO check if plane is in cool down
 		MCH_WeaponParam prm = new MCH_WeaponParam();
 		prm.setPosition(ac.posX, ac.posY, ac.posZ);
@@ -177,15 +176,15 @@ public class ApiMcheliBvr {
 			}
 			IChunkProvider cp = p.worldObj.getChunkProvider();
 			int xmin = -3, xmax = 3, zmin = -3, zmax = 3;
-			sendImportant(p, "Chunk: ["+m.chunkCoordX+", "+m.chunkCoordZ+"]");
-			sendImportant(p, "Chunks Check x["+xmin+","+xmax+"] z["+zmin+","+zmax+"]");
+			//sendImportant(p, "Chunk: ["+m.chunkCoordX+", "+m.chunkCoordZ+"]");
+			//sendImportant(p, "Chunks Check x["+xmin+","+xmax+"] z["+zmin+","+zmax+"]");
 			for (int x = xmin; x < xmax+1; ++x) {
 				for (int z = zmin; z < zmax+1; ++z) {
 					int cx = m.chunkCoordX+x;
 					int cz = m.chunkCoordZ+z;
 					if (!cp.chunkExists(cx, cz)) {
 						cp.provideChunk(cx, cz);
-						sendInfo(p, "New Chunk: ["+cx+", "+cz+"]");
+						//sendInfo(p, "New Chunk: ["+cx+", "+cz+"]");
 					}
 				}
 			}
@@ -193,14 +192,14 @@ public class ApiMcheliBvr {
 		}
 	}
 	
-	private void sendInfo(EntityPlayer user, String message) {
+	/*private void sendInfo(EntityPlayer user, String message) {
 		if (user == null) return;
 		ChatComponentText chat = new ChatComponentText(message);
 		ChatStyle style = new ChatStyle();
 		style.setColor(EnumChatFormatting.YELLOW);
 		chat.setChatStyle(style);
 		user.addChatMessage(chat);
-	}
+	}*/
 	
 	private void sendImportant(EntityPlayer user, String message) {
 		if (user == null) return;

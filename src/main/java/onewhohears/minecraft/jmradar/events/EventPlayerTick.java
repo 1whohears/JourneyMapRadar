@@ -13,8 +13,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Scoreboard;
-import net.minecraft.util.ChatComponentText;
-import onewhohears.minecraft.jmapi.api.ApiWaypointManager;
 import onewhohears.minecraft.jmradar.JMRadarMod;
 import onewhohears.minecraft.jmradar.api.ApiMcheliBvr;
 import onewhohears.minecraft.jmradar.api.ApiRadarEntity;
@@ -70,22 +68,16 @@ public class EventPlayerTick {
 		String prefix = playerName;
 		if (prefix.length() > ApiRadarEntity.getPrefixLength()) prefix = prefix.substring(0, ApiRadarEntity.getPrefixLength());
 		for (int i = 0; i < pings.size(); ++i) {
-			String waypointName = ApiRadarEntity.radarPrefix+prefix+i;
-			String waypoint = ApiWaypointManager.instance.createFormattedString(waypointName, 
-					(int)pings.get(i).posX, (int)pings.get(i).posY, (int)pings.get(i).posZ, pings.get(i).dimension, ApiRadarEntity.defaultPingColor, true);
-			ApiMcheliBvr.instance.addPing(playerName, prefix, i, pings.get(i), ApiMcheliBvr.getMaxMcheliPingAge());
-			sendMessage(player, waypoint);
+			ApiMcheliBvr.instance.addPing(playerName, prefix, pings.get(i), ApiMcheliBvr.getMaxMcheliPingAge());
 			if (playerNames != null) for (int j = 0; j < playerNames.size(); ++j) {
 				if (playerNames.get(j).equals(playerName)) continue;
-				ApiWaypointManager.instance.shareWaypointToPlayer((int)pings.get(i).posX, (int)pings.get(i).posY, (int)pings.get(i).posZ, pings.get(i).dimension, 
-						ApiRadarEntity.defaultPingColor, true, waypointName, playerName, playerNames.get(j));
-				ApiMcheliBvr.instance.addPing(playerNames.get(j), prefix, i, pings.get(i), ApiMcheliBvr.getMaxMcheliPingAge());
+				ApiMcheliBvr.instance.addPing(playerNames.get(j), prefix, pings.get(i), ApiMcheliBvr.getMaxMcheliPingAge());
 			}
 		}
 	}
 	
-	private void sendMessage(EntityPlayer player, String message) {
+	/*private void sendMessage(EntityPlayer player, String message) {
 		player.addChatMessage(new ChatComponentText(message));
-	}
+	}*/
 	
 }
