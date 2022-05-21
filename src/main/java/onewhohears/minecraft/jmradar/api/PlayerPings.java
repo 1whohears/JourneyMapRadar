@@ -19,25 +19,25 @@ public class PlayerPings {
 		pings = new ArrayList<RadarPing>();
 	}
 	
-	protected void addPing(String prefix, Entity pingEntity, int maxAge) {
+	protected void addPing(String prefix, Entity pingEntity, int maxAge, int color) {
 		for (int i = 0; i < pings.size(); ++i) {
 			if (pings.get(i).getPrefix().equals(prefix) && pings.get(i).getEntity().equals(pingEntity)) {
 				pings.get(i).resetAge();
-				sendWaypoint(pings.get(i));
+				sendWaypoint(pings.get(i), color);
 				return;
 			}
 		}
 		int number = getUnusedNumber(prefix);
 		RadarPing ping = new RadarPing(prefix, number, pingEntity, maxAge);
 		pings.add(ping);
-		sendWaypoint(ping);
+		sendWaypoint(ping, color);
 	}
 	
-	private void sendWaypoint(RadarPing ping) {
+	private void sendWaypoint(RadarPing ping, int color) {
 		String senderName = playerName;
 		if (ping.getPrefix().equals(playerPrefix)) senderName = "Your Onboard Radar";
 		ApiWaypointManager.instance.shareWaypointToPlayer((int)ping.getEntity().posX, (int)ping.getEntity().posY, (int)ping.getEntity().posZ, ping.getEntity().dimension, 
-				ApiRadarEntity.defaultPingColor, true, ping.getFullName(), senderName, playerName);
+				color, true, ping.getFullName(), senderName, playerName);
 	}
 	
 	public String getPlayerName() {

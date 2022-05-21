@@ -68,10 +68,10 @@ public class EventPlayerTick {
 		String prefix = playerName;
 		if (prefix.length() > ApiRadarEntity.getPrefixLength()) prefix = prefix.substring(0, ApiRadarEntity.getPrefixLength());
 		for (int i = 0; i < pings.size(); ++i) {
-			ApiMcheliBvr.instance.addPing(playerName, prefix, pings.get(i), ApiMcheliBvr.getMaxMcheliPingAge());
+			ApiMcheliBvr.instance.addPing(playerName, prefix, pings.get(i), ApiMcheliBvr.getMaxMcheliPingAge(), ApiRadarEntity.defaultPingColor);
 			if (playerNames != null) for (int j = 0; j < playerNames.size(); ++j) {
 				if (playerNames.get(j).equals(playerName)) continue;
-				ApiMcheliBvr.instance.addPing(playerNames.get(j), prefix, pings.get(i), ApiMcheliBvr.getMaxMcheliPingAge());
+				ApiMcheliBvr.instance.addPing(playerNames.get(j), prefix, pings.get(i), ApiMcheliBvr.getMaxMcheliPingAge(), ApiRadarEntity.defaultPingColor);
 			}
 		}
 	}

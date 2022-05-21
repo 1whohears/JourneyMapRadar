@@ -40,16 +40,16 @@ public class ApiMcheliBvr {
 		}
 	}
 	
-	public void addPing(String playerName, String prefix, Entity pingEntity, int maxAge) {
+	public void addPing(String playerName, String prefix, Entity pingEntity, int maxAge, int color) {
 		if (prefix.length() > ApiRadarEntity.getPrefixLength()) prefix = prefix.substring(0, ApiRadarEntity.getPrefixLength());
 		for (int i = 0; i < playerPings.size(); ++i) {
 			if (playerPings.get(i).getPlayerName().equals(playerName)) {
-				playerPings.get(i).addPing(prefix, pingEntity, maxAge);
+				playerPings.get(i).addPing(prefix, pingEntity, maxAge, color);
 				return;
 			}
 		}
 		PlayerPings p = new PlayerPings(playerName);
-		p.addPing(prefix, pingEntity, maxAge);
+		p.addPing(prefix, pingEntity, maxAge, color);
 		playerPings.add(p);
 	}
 	

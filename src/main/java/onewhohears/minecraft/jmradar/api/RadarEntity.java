@@ -25,7 +25,7 @@ public class RadarEntity {
 	private TargetType targetType;
 	private boolean removeOnDeath = true;
 	private int minRadarRate = 10;
-	private int defaultColor = 0xe3b016;
+	private int defaultColor = ApiRadarEntity.defaultPingColor;
 	
 	protected RadarEntity(String id, double range, int radarRate, EntityLivingBase radar, TargetType targetType, EntityPlayerMP player, double infoRange) {
 		this.id = id;
@@ -280,7 +280,7 @@ public class RadarEntity {
 		boolean playerNearBy = false;
 		for (int i = 0; i < players.size(); ++i) {
 			if (players.get(i).getDistanceToEntity(radar) > infoRange) continue;
-			ApiMcheliBvr.instance.addPing(players.get(i).getDisplayName(), prefix, ping, radarRate);
+			ApiMcheliBvr.instance.addPing(players.get(i).getDisplayName(), prefix, ping, radarRate, defaultColor);
 			playerNearBy = true;
 		}
 		if (playerNearBy && ping.riddenByEntity != null) W_WorldFunc.MOD_playSoundAtEntity(ping.riddenByEntity, "locked", 1.0F, 1.0F);
