@@ -9,12 +9,15 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartedEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.event.FMLServerStoppedEvent;
 import cpw.mods.fml.common.network.FMLEventChannel;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraftforge.client.ClientCommandHandler;
+import onewhohears.minecraft.jmradar.api.ApiMcheliBvr;
 import onewhohears.minecraft.jmradar.api.ApiRadarEntity;
+import onewhohears.minecraft.jmradar.command.ClearPingsCommand;
 import onewhohears.minecraft.jmradar.command.JMRadarCommand;
 import onewhohears.minecraft.jmradar.config.ConfigManager;
 import onewhohears.minecraft.jmradar.events.EventPlayerTick;
@@ -25,12 +28,11 @@ import onewhohears.minecraft.jmradar.events.EventServerTick;
 public class JMRadarMod {
 	
 	public static boolean mcHeliRadar = true;
-	public static final String mcHeliPrefix = "!P-";
 	
 	public static final String MOD_ID = "jmradar";
 	public static final String MOD_NAME = "Journey Map Radar 1.7.10";
-	public static final String MOD_VERSION = "0.2.0";
-	public static final String MOD_DEPENDENCIES = "journeymap, mcheli, journeymap_api_1.7.10";
+	public static final String MOD_VERSION = "0.3.0";
+	public static final String MOD_DEPENDENCIES = "required-after:journeymap;required-after:mcheli@[1.0.3,);required-after:journeymap_api_1.7.10@[0.8.6,)";
 	
     public static Logger logger;
     
@@ -55,7 +57,7 @@ public class JMRadarMod {
     @EventHandler
     public void init(FMLInitializationEvent event) {
     	if (event.getSide() == Side.CLIENT) {
-        	ClientCommandHandler.instance.registerCommand(new JMRadarCommand());
+        	ClientCommandHandler.instance.registerCommand(new ClearPingsCommand());
     	}
     	FMLCommonHandler.instance().bus().register(new EventPlayerTick());
     	FMLCommonHandler.instance().bus().register(new EventServerTick());
@@ -64,11 +66,18 @@ public class JMRadarMod {
     @EventHandler
     public void started(FMLServerStartedEvent event) {
     	new ApiRadarEntity();
+    	new ApiMcheliBvr();
+    }
+    
+    @EventHandler
+    public void serverStart(FMLServerStartingEvent event) {
+    	event.registerServerCommand(new JMRadarCommand());
     }
     
     @EventHandler
     public void stopped(FMLServerStoppedEvent event) {
     	ApiRadarEntity.instance = null;
+    	ApiMcheliBvr.instance = null;
     }
     
 }

@@ -2,6 +2,7 @@
 **/libs/
 **/bin/
 *.bak
+copypath.txt
 
 .gradle
 **/build/
