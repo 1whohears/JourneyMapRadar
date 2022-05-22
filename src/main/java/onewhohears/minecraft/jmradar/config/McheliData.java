@@ -23,7 +23,7 @@ public class McheliData {
 	
 	protected McheliData(String name, int radarRate) {
 		this.name = name;
-		
+		setRadarRate(radarRate);
 		this.range = ConfigManager.defaultMcheliRange;
 		this.stealth = ConfigManager.defaultMcheliStealth;
 	}
