@@ -37,7 +37,7 @@ public class PlayerPings {
 		String senderName = playerName;
 		if (ping.getPrefix().equals(playerPrefix)) senderName = "Your Onboard Radar";
 		ApiWaypointManager.instance.shareWaypointToPlayer((int)ping.getEntity().posX, (int)ping.getEntity().posY, (int)ping.getEntity().posZ, ping.getEntity().dimension, 
-				color, true, ping.getFullName(), senderName, playerName);
+				color, true, ping.getFullName(), senderName, playerName, false);
 	}
 	
 	public String getPlayerName() {
@@ -49,14 +49,11 @@ public class PlayerPings {
 	}
 	
 	protected void verifyPingAges() {
-		//if (pings.size() > 0) System.out.println(playerName+" PING AGES");
 		for (int i = 0; i < pings.size(); ++i) {
 			String name = pings.get(i).getFullName();
-			//System.out.println(name+" age = "+pings.get(i).getAge());
 			if (pings.get(i).isTooOld()) {
-				ApiWaypointManager.instance.removePlayerWaypoint(playerName, name, true);
+				ApiWaypointManager.instance.removePlayerWaypoint(playerName, name, false, false);
 				pings.remove(i--);
-				//System.out.println("TOO OLD");
 			}
 		}
 	}
