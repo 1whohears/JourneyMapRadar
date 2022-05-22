@@ -1,6 +1,7 @@
 package onewhohears.minecraft.jmradar.api;
 
 import net.minecraft.entity.Entity;
+import onewhohears.minecraft.jmradar.config.ConfigManager;
 
 public class RadarPing {
 	
@@ -27,7 +28,7 @@ public class RadarPing {
 	}
 	
 	protected boolean isTooOld() {
-		return age++ > maxAge;
+		return age++ > maxAge + ConfigManager.mcheliPingAgeBuffer;
 	}
 	
 	public String getFullName() {

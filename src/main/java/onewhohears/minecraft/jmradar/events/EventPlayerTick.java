@@ -28,17 +28,18 @@ public class EventPlayerTick {
 		if (JMRadarMod.mcHeliRadar) mcHeliRadar(event.player);
 	}
 	
-	private int heliTimer = 0, heliRate = ApiMcheliBvr.getMaxMcheliPingAge();
+	private int heliTimer = 0;
 	
 	@SuppressWarnings("unchecked")
 	private void mcHeliRadar(EntityPlayer player) {
-		if (heliTimer < heliRate) { ++heliTimer; return; }
-		if (heliTimer >= heliRate) heliTimer = 0;
 		if (player.ridingEntity == null || !player.isRiding()) return;
 		if (!(player.ridingEntity instanceof MCH_EntityAircraft)) return;
 		MCH_EntityAircraft playerAircraft = (MCH_EntityAircraft)player.ridingEntity;
 		MCH_AircraftInfo info = playerAircraft.getAcInfo();
 		if (!info.isEnableEntityRadar) return;
+		int heliRate = ConfigManager.getAircraftRadarRate(info.displayName);
+		if (heliTimer < heliRate) { ++heliTimer; return; }
+		if (heliTimer >= heliRate) heliTimer = 0;
 		double range = ConfigManager.getPlaneRange(info.displayName);
 		List<MCH_EntityAircraft> entities = player.getEntityWorld().getEntitiesWithinAABB(
 				MCH_EntityAircraft.class, player.boundingBox.expand(range, range, range));
@@ -68,10 +69,10 @@ public class EventPlayerTick {
 		String prefix = playerName;
 		if (prefix.length() > ApiRadarEntity.getPrefixLength()) prefix = prefix.substring(0, ApiRadarEntity.getPrefixLength());
 		for (int i = 0; i < pings.size(); ++i) {
-			ApiMcheliBvr.instance.addPing(playerName, prefix, pings.get(i), ApiMcheliBvr.getMaxMcheliPingAge(), ApiRadarEntity.defaultPingColor);
+			ApiMcheliBvr.instance.addPing(playerName, prefix, pings.get(i), heliRate, ApiRadarEntity.defaultPingColor);
 			if (playerNames != null) for (int j = 0; j < playerNames.size(); ++j) {
 				if (playerNames.get(j).equals(playerName)) continue;
-				ApiMcheliBvr.instance.addPing(playerNames.get(j), prefix, pings.get(i), ApiMcheliBvr.getMaxMcheliPingAge(), ApiRadarEntity.defaultPingColor);
+				ApiMcheliBvr.instance.addPing(playerNames.get(j), prefix, pings.get(i), heliRate, ApiRadarEntity.defaultPingColor);
 			}
 		}
 	}

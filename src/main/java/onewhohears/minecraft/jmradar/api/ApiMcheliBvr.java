@@ -5,7 +5,6 @@ import java.util.List;
 
 import mcheli.aircraft.MCH_EntityAircraft;
 import mcheli.weapon.MCH_EntityAAMissile;
-import mcheli.weapon.MCH_SightType;
 import mcheli.weapon.MCH_WeaponInfo;
 import mcheli.weapon.MCH_WeaponParam;
 import mcheli.weapon.MCH_WeaponSet;
@@ -28,10 +27,6 @@ public class ApiMcheliBvr {
 		missiles = new ArrayList<Missile>();
 		playerPings = new ArrayList<PlayerPings>();
 		instance = this;
-	}
-	
-	public static int getMaxMcheliPingAge() {
-		return ConfigManager.maxMcheliPingAge;
 	}
 	
 	public void addPing(String playerName, String prefix, Entity pingEntity, int maxAge, int color) {
@@ -98,24 +93,27 @@ public class ApiMcheliBvr {
 			return false;
 		}
 		MCH_WeaponInfo info = ws.getInfo();
-		if (info.sight != MCH_SightType.LOCK) { // TODO verify is AAMissile
-			sendError(user, "You have not selected an air to air missile!");
+		if (!info.getWeaponTypeName().equals("AA Missile")) {
+			sendError(user, "You have not selected an Air to Air Missile!");
 			return false; 
 		}
 		if (!ws.canUse()) {
 			sendError(user, "Can't use weapon right now!");
 			return false; 
 		}
-		double minRange = 2000; // TODO give all missiles a range by name
+		double minRange = ConfigManager.getBvrMissileMaxRange(info.displayName);
 		if (user.getDistanceToEntity(target) > minRange) {
 			sendError(user, "The Min Range for this Missile is "+minRange);
 			return false;
 		}
-		if (ws.getAmmoNum() < 1) {
-			sendError(user, "Not Enough Ammo!"); // TODO check if plane has enough ammo
+		if (ws.getRestAllAmmoNum() > 0 && ws.getAmmoNum() < 1) {
+			sendError(user, "Reloading!");
 			return false;
 		}
-		// TODO check if plane is in cool down
+		if (ws.getRestAllAmmoNum() < 1 && ws.getAmmoNum() < 1) {
+			sendError(user, "Out of Ammo!");
+			return false;
+		}
 		MCH_WeaponParam prm = new MCH_WeaponParam();
 		prm.setPosition(ac.posX, ac.posY, ac.posZ);
 		prm.entity = ac;
