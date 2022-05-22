@@ -30,6 +30,25 @@ public class RadarEntity {
 	private int minRadarRate = 10;
 	private int defaultColor = ApiRadarEntity.defaultPingColor;
 	
+	protected RadarEntity(String id, double range, int radarRate, EntityLivingBase radar, TargetType targetType, double infoRange) {
+		this.id = id;
+		this.radar = radar;
+		this.infoRange = infoRange;
+		this.targetType = targetType;
+		setRange(range);
+		setRadarRate(radarRate);
+	}
+	
+	protected RadarEntity(String id, double range, int radarRate, EntityLivingBase radar, TargetType targetType, ScorePlayerTeam team, double infoRange) {
+		this.id = id;
+		this.radar = radar;
+		this.infoRange = infoRange;
+		this.targetType = targetType;
+		addScoreboardTeam(team.getRegisteredName());
+		setRange(range);
+		setRadarRate(radarRate);
+	}
+	
 	protected RadarEntity(String id, double range, int radarRate, EntityLivingBase radar, TargetType targetType, EntityPlayerMP player, double infoRange) {
 		this.id = id;
 		this.radar = radar;

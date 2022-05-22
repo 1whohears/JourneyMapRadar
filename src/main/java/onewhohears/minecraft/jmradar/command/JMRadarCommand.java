@@ -75,7 +75,7 @@ public class JMRadarCommand extends CommandBase {
 			sendError("You can only fire missiles at Mcheli Aircraft!");
 			return;
 		}
-		if (ApiMcheliBvr.instance.launchMcheliMissile(user, (MCH_EntityAircraft)target)) sendMessage("Missile Fired!");
+		ApiMcheliBvr.instance.launchMcheliMissile(user, target);
 	}
 	
 	private void color(String prefix, String colorString) {

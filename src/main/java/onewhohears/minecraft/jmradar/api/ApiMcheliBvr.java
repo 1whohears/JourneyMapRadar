@@ -78,8 +78,14 @@ public class ApiMcheliBvr {
 		return new String[0];
 	}
 	
+	/**
+	 * If the user is riding an mcheli aircraft and selected an Air to Air missile, the aircraft will fire the missile at the target entity
+	 * @param user the player riding the aircraft
+	 * @param target the entity the missile should shoot
+	 * @return if the launch was sussessful
+	 */
 	@SuppressWarnings("unchecked")
-	public boolean launchMcheliMissile(EntityPlayer user, MCH_EntityAircraft target) {
+	public boolean launchMcheliMissile(EntityPlayer user, Entity target) {
 		if (!ConfigManager.bvrMode) return false;
 		if (user == null || target == null) return false;
 		if (user.ridingEntity == null || !(user.ridingEntity instanceof MCH_EntityAircraft)) {
@@ -130,12 +136,16 @@ public class ApiMcheliBvr {
 			if (!m.shootingAircraft.equals(ac)) continue;
 			if (!m.targetEntity.equals(target)) continue;
 			missiles.add(new Missile(m));
+			sendInfo(user, "Missile Fired!");
 			return true;
 		}
 		sendError(user, "Could not send targeting data to missile!");
 		return false;
 	}
 	
+	/**
+	 * already called in EventServerTick
+	 */
 	public void runBvrMissiles() {
 		if (!ConfigManager.bvrMode) return;
 		verifyPingAges();
@@ -193,14 +203,14 @@ public class ApiMcheliBvr {
 		}
 	}
 	
-	/*private void sendInfo(EntityPlayer user, String message) {
+	private void sendInfo(EntityPlayer user, String message) {
 		if (user == null) return;
 		ChatComponentText chat = new ChatComponentText(message);
 		ChatStyle style = new ChatStyle();
 		style.setColor(EnumChatFormatting.YELLOW);
 		chat.setChatStyle(style);
 		user.addChatMessage(chat);
-	}*/
+	}
 	
 	private void sendImportant(EntityPlayer user, String message) {
 		if (user == null) return;

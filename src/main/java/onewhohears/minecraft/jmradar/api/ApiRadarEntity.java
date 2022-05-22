@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.scoreboard.ScorePlayerTeam;
 
 public class ApiRadarEntity {
 	
@@ -24,6 +25,50 @@ public class ApiRadarEntity {
 		instance = this;
 	}
 	
+	private TargetType getTargetType(int targetType) {
+		if (targetType < 0 || targetType >= TargetType.values().length) return null;
+		return TargetType.values()[targetType];
+	}
+	
+	/**
+	 * Register an entity as an entity radar that sends the registered players radar waypoints.
+	 * Radars will not be saved when the world unloads.
+	 * Entities should register themselves when initialized.
+	 * This returns null if the inputed id has already been used.
+	 * @param id unique String id used to identity this radar entity
+	 * @param range the range this radar could detect an object
+	 * @param radarRate number of ticks between radar checks. minimum of 10
+	 * @param targetType the type of entities the radar tracks
+	 * @param radarEntity the entity that functions as a radar
+	 * @param infoRange the max range a player can be from the radar to receive pings
+	 * @return returns null if that id already exists
+	 */
+	public RadarEntity addRadar(String id, double range, int radarRate, TargetType targetType, EntityLivingBase radarEntity, double infoRange) {
+		if (getRadarById(id) != null) return null;
+		RadarEntity re = new RadarEntity(id, range, radarRate, radarEntity, targetType, infoRange);
+		radars.add(re);
+		return re;
+	}
+	
+	/**
+	 * Register an entity as an entity radar that sends the registered players radar waypoints.
+	 * Radars will not be saved when the world unloads.
+	 * Entities should register themselves when initialized.
+	 * This returns null if the inputed id has already been used.
+	 * @param id unique String id used to identity this radar entity
+	 * @param range the range this radar could detect an object
+	 * @param radarRate number of ticks between radar checks. minimum of 10
+	 * @param targetType the type of entities the radar tracks | 0 = players, 1 = mcheli aircraft, 2 = mobs
+	 * @param radarEntity the entity that functions as a radar
+	 * @param infoRange the max range a player can be from the radar to receive pings
+	 * @return returns null if that id already exists
+	 */
+	public RadarEntity addRadar(String id, double range, int radarRate, int targetType, EntityLivingBase radarEntity, double infoRange) {
+		TargetType type = getTargetType(targetType);
+		if (type == null) return null;
+		return addRadar(id, range, radarRate, type, radarEntity, infoRange);
+	}
+	
 	/**
 	 * Register an entity as an entity radar that sends the registered players radar waypoints.
 	 * Radars will not be saved when the world unloads.
@@ -39,9 +84,9 @@ public class ApiRadarEntity {
 	 * @return returns null if that id already exists
 	 */
 	public RadarEntity addRadar(String id, double range, int radarRate, TargetType targetType, EntityLivingBase radarEntity, EntityPlayerMP player, double infoRange) {
-		if (getRadarById(id) != null) return null;
-		RadarEntity re = new RadarEntity(id, range, radarRate, radarEntity, targetType, player, infoRange);
-		radars.add(re);
+		RadarEntity re = addRadar(id, range, radarRate, targetType, radarEntity, infoRange);
+		if (re == null) return null;
+		re.addPlayer(player);
 		return re;
 	}
 	
@@ -60,9 +105,50 @@ public class ApiRadarEntity {
 	 * @return returns null if that id already exists
 	 */
 	public RadarEntity addRadar(String id, double range, int radarRate, int targetType, EntityLivingBase radarEntity, EntityPlayerMP player, double infoRange) {
-		if (targetType < 0 || targetType >= TargetType.values().length) return null;
-		TargetType type = TargetType.values()[targetType];
-		return this.addRadar(id, range, radarRate, type, radarEntity, player, infoRange);
+		TargetType type = getTargetType(targetType);
+		if (type == null) return null;
+		return addRadar(id, range, radarRate, type, radarEntity, player, infoRange);
+	}
+	
+	/**
+	 * Register an entity as an entity radar that sends the registered players radar waypoints.
+	 * Radars will not be saved when the world unloads.
+	 * Entities should register themselves when initialized.
+	 * This returns null if the inputed id has already been used.
+	 * @param id unique String id used to identity this radar entity
+	 * @param range the range this radar could detect an object
+	 * @param radarRate number of ticks between radar checks. minimum of 10
+	 * @param targetType the type of entities the radar tracks
+	 * @param radarEntity the entity that functions as a radar
+	 * @param team the scoreboard team of players to send the pings to
+	 * @param infoRange the max range a player can be from the radar to receive pings
+	 * @return returns null if that id already exists
+	 */
+	public RadarEntity addRadar(String id, double range, int radarRate, TargetType targetType, EntityLivingBase radarEntity, ScorePlayerTeam team, double infoRange) {
+		RadarEntity re = addRadar(id, range, radarRate, targetType, radarEntity, infoRange);
+		if (re == null) return null;
+		re.addScoreboardTeam(team.getRegisteredName());
+		return re;
+	}
+	
+	/**
+	 * Register an entity as an entity radar that sends the registered players radar waypoints.
+	 * Radars will not be saved when the world unloads.
+	 * Entities should register themselves when initialized.
+	 * This returns null if the inputed id has already been used.
+	 * @param id unique String id used to identity this radar entity
+	 * @param range the range this radar could detect an object
+	 * @param radarRate number of ticks between radar checks. minimum of 10
+	 * @param targetType the type of entities the radar tracks | 0 = players, 1 = mcheli aircraft, 2 = mobs
+	 * @param radarEntity the entity that functions as a radar
+	 * @param team the scoreboard team of players to send the pings to
+	 * @param infoRange the max range a player can be from the radar to receive pings
+	 * @return returns null if that id already exists
+	 */
+	public RadarEntity addRadar(String id, double range, int radarRate, int targetType, EntityLivingBase radarEntity, ScorePlayerTeam team, double infoRange) {
+		TargetType type = getTargetType(targetType);
+		if (type == null) return null;
+		return addRadar(id, range, radarRate, type, radarEntity, team, infoRange);
 	}
 	
 	/**
