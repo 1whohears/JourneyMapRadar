@@ -260,13 +260,13 @@ public class ConfigManager {
 	
 	private static String[] getDefaultMissileRanges() {
 		return new String[] {
-				"AIM-120 AMRAAM=2200",
-				"AIM-9 Sidewinder=1800",
+				"AIM-120 AMRAAM=1800",
+				"AIM-9 Sidewinder=1600",
 				"AIM-92 Stinger=1400",
 				"AIM-9X=1400",
 				"AIM-7 Sparrow=1200",
-				"R-77=2000",
-				"R-73=1800",
+				"R-77=1800",
+				"R-73=1600",
 				"R-73M2=1400",
 				"R-27AE AAM=1400",
 				"R-77-1 AAM=1400",
