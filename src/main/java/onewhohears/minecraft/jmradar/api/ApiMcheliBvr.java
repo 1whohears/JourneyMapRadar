@@ -8,6 +8,7 @@ import mcheli.weapon.MCH_EntityAAMissile;
 import mcheli.weapon.MCH_WeaponInfo;
 import mcheli.weapon.MCH_WeaponParam;
 import mcheli.weapon.MCH_WeaponSet;
+import mcheli.wrapper.W_WorldFunc;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
@@ -143,12 +144,16 @@ public class ApiMcheliBvr {
 		return false;
 	}
 	
+	private int alertTimer = 0, alertTime = 10;
+	
 	/**
 	 * already called in EventServerTick
 	 */
 	public void runBvrMissiles() {
 		if (!ConfigManager.bvrMode) return;
 		verifyPingAges();
+		if (alertTimer > 0) --alertTimer;
+		else if (alertTimer <= 0) alertTimer = alertTime;
 		for (int i = 0; i < missiles.size(); ++i) {
 			MCH_EntityAAMissile m = missiles.get(i).missile;
 			if (!(m.shootingEntity instanceof EntityPlayer)) {
@@ -169,8 +174,16 @@ public class ApiMcheliBvr {
 				continue;
 			}
 			Entity target = m.targetEntity;
-			if (target == null 
-					|| (m.getDistanceToEntity(target) > 120 && !isPlayerTrackingEntity(p.getDisplayName(), target))) {
+			if (target == null) {
+				sendError(p, "Missile lost track of it's target.");
+				m.setDead();
+				missiles.remove(i--);
+				continue;
+			}
+			double distance = m.getDistanceToEntity(target);
+			double pitBullRange = 100d;
+			boolean pitBull = distance > pitBullRange;
+			if (!pitBull && !isPlayerTrackingEntity(p.getDisplayName(), target)) {
 				sendError(p, "Missile lost track of it's target.");
 				m.setDead();
 				missiles.remove(i--);
@@ -194,6 +207,10 @@ public class ApiMcheliBvr {
 						//sendInfo(p, "New Chunk: ["+cx+", "+cz+"]");
 					}
 				}
+			}
+			if (alertTimer == alertTime && !pitBull) {
+				if (target.riddenByEntity != null) W_WorldFunc.MOD_playSoundAtEntity(target.riddenByEntity, "alert", 0.2F, 1.0F);
+				else W_WorldFunc.MOD_playSoundAtEntity(target, "alert", 0.2F, 1.0F);
 			}
 			missiles.get(i).setPrevTick(m.ticksExisted);
 		}

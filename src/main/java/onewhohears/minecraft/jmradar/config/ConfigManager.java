@@ -29,7 +29,7 @@ public class ConfigManager {
 	private static String[] mcheliStealthStrings;
 	
 	public static final String CATEGORY_MCHELI_RADAR_RATE = "Mcheli Radar Rate";
-	public static final int minRate = 20, maxRate = 1000;
+	public static final int minRate = 40, maxRate = 1000;
 	public static int defaultMcheliRadarRate;
 	private static String[] mcheliRadarRateStrings;
 	
@@ -73,7 +73,7 @@ public class ConfigManager {
 				+ "<aircraft name>=<stealth>");
 		parseStealth();
 		// radar rate
-		defaultMcheliRadarRate = config.getInt("Default Mcheli Radar Rate", CATEGORY_MCHELI_RADAR_RATE, 50, minRate, maxRate, 
+		defaultMcheliRadarRate = config.getInt("Default Mcheli Radar Rate", CATEGORY_MCHELI_RADAR_RATE, 60, minRate, maxRate, 
 				"Number of ticks before your mcheli aircraft gets new pings.");
 		mcheliRadarRateStrings = config.getStringList("Aircraft Radar Rate Overrides", CATEGORY_MCHELI_RADAR_RATE, getDefaultRates(), 
 				"Set custom radar rate for mcheli aircraft using their display name. "
@@ -223,11 +223,11 @@ public class ConfigManager {
 				"E767=70",
 				"B-2A Spirit=80",
 				"C5A galaxy=80",
-				"F-22A Raptor=40",
-				"Su-47 Berkut=40",
-				"F-35A Lightning II=40",
-				"F-35B Lightning II=40",
-				"F-35C Lightning II=40"
+				"F-22A Raptor=50",
+				"Su-47 Berkut=50",
+				"F-35A Lightning II=50",
+				"F-35B Lightning II=50",
+				"F-35C Lightning II=50"
 		};
 	}
 	
