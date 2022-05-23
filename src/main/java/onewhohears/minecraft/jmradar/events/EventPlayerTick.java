@@ -28,19 +28,16 @@ public class EventPlayerTick {
 		if (JMRadarMod.mcHeliRadar) mcHeliRadar(event.player);
 	}
 	
-	//private int heliTimer = 0;
-	
 	@SuppressWarnings("unchecked")
 	private void mcHeliRadar(EntityPlayer player) {
 		if (player.ridingEntity == null || !player.isRiding()) return;
 		if (!(player.ridingEntity instanceof MCH_EntityAircraft)) return;
 		MCH_EntityAircraft playerAircraft = (MCH_EntityAircraft)player.ridingEntity;
+		if (playerAircraft.isDestroyed()) return;
 		MCH_AircraftInfo info = playerAircraft.getAcInfo();
 		if (!info.isEnableEntityRadar) return;
 		int heliRate = ConfigManager.getAircraftRadarRate(info.displayName);
 		if (player.worldObj.getWorldTime() % heliRate != 0) return;
-		//if (heliTimer < heliRate) { ++heliTimer; return; }
-		//if (heliTimer >= heliRate) heliTimer = 0;
 		double range = ConfigManager.getPlaneRange(info.displayName);
 		List<MCH_EntityAircraft> entities = player.getEntityWorld().getEntitiesWithinAABB(
 				MCH_EntityAircraft.class, player.boundingBox.expand(range, range, range));
