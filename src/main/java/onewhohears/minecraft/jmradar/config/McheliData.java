@@ -64,7 +64,7 @@ public class McheliData {
 	
 	@Override
 	public String toString() {
-		return "[" + name + " : " + range + " : " + stealth + "]";
+		return "[" + name + " : " + range + " : " + stealth + ":" + radarRate + "]";
 	}
 	
 }

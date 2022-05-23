@@ -68,19 +68,23 @@ public class ConfigManager {
 		defaultMcheliStealth = config.getFloat("Default Mcheli Stealth", CATEGORY_MCHELI_STEALTH, 1.0f, minStealth, maxStealth, 
 				"The default stealth of a mcheli aircraft.");
 		mcheliStealthStrings = config.getStringList("Aircraft Stealth Overrides", CATEGORY_MCHELI_STEALTH, getDefaultStealth(), 
-				"Set custom stealth for mcheli aircraft using their display name. Your_Stealth * Enemy_Range is the distance an enemy can see you. <aircraft name>=<stealth>");
+				"Set custom stealth for mcheli aircraft using their display name. "
+				+ "Your_Stealth * Enemy_Range is the distance an enemy can see you. "
+				+ "<aircraft name>=<stealth>");
 		parseStealth();
 		// radar rate
 		defaultMcheliRadarRate = config.getInt("Default Mcheli Radar Rate", CATEGORY_MCHELI_RADAR_RATE, 50, minRate, maxRate, 
 				"Number of ticks before your mcheli aircraft gets new pings.");
 		mcheliRadarRateStrings = config.getStringList("Aircraft Radar Rate Overrides", CATEGORY_MCHELI_RADAR_RATE, getDefaultRates(), 
-				"Set custom radar rate for mcheli aircraft using their display name. <aircraft name>=<rate>");
+				"Set custom radar rate for mcheli aircraft using their display name. "
+				+ "<aircraft name>=<rate>");
 		parseRadarRates();
 		// bvr range
 		defaultMaxBvrMissileRange = config.getFloat("Default BVR Missile Range", CATEGORY_BVR_RANGE, 1000f, minRange, maxRange, 
 				"The default range of a BVR missile radar.");
 		missileRangeStrings = config.getStringList("Missile Range Overrides", CATEGORY_BVR_RANGE, getDefaultMissileRanges(), 
-				"Set custom ranges for missiles using their display name. <missile name>=<range>");
+				"Set custom ranges for missiles using their display name. "
+				+ "<missile name>=<range>");
 		parseMissileRanges();
 		if (config.hasChanged()) config.save();
 	}
@@ -253,12 +257,20 @@ public class ConfigManager {
 		if (data == null) return defaultMaxBvrMissileRange;
 		return data.getRange();
 	}
-	// TODO finish default missile ranges
+	
 	private static String[] getDefaultMissileRanges() {
 		return new String[] {
-				"AIM-9 Sidewinder=1000",
-				"AIM-92 Stinger=1000",
-				"9K38 Igla=1000"
+				"AIM-120 AMRAAM=2200",
+				"AIM-9 Sidewinder=1800",
+				"AIM-92 Stinger=1400",
+				"AIM-9X=1400",
+				"AIM-7 Sparrow=1200",
+				"R-77=2000",
+				"R-73=1800",
+				"R-73M2=1400",
+				"R-27AE AAM=1400",
+				"R-77-1 AAM=1400",
+				"R-60=1200"
 		};
 	}
 	

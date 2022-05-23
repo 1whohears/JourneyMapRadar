@@ -131,7 +131,7 @@ public class ApiMcheliBvr {
 				MCH_EntityAAMissile.class, ac.boundingBox.expand(searchRange, searchRange, searchRange));
 		for (int i = 0; i < ms.size(); ++i) {
 			MCH_EntityAAMissile m = ms.get(i);
-			if (m.ticksExisted > 1) continue;
+			if (m.ticksExisted > 4) continue;
 			if (!m.shootingEntity.equals(user)) continue;
 			if (!m.shootingAircraft.equals(ac)) continue;
 			if (!m.targetEntity.equals(target)) continue;
