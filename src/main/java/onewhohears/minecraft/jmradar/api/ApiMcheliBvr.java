@@ -131,7 +131,7 @@ public class ApiMcheliBvr {
 				MCH_EntityAAMissile.class, ac.boundingBox.expand(searchRange, searchRange, searchRange));
 		for (int i = 0; i < ms.size(); ++i) {
 			MCH_EntityAAMissile m = ms.get(i);
-			if (m.ticksExisted > 4) continue;
+			if (m.ticksExisted > 3) continue;
 			if (!m.shootingEntity.equals(user)) continue;
 			if (!m.shootingAircraft.equals(ac)) continue;
 			if (!m.targetEntity.equals(target)) continue;
@@ -168,7 +168,9 @@ public class ApiMcheliBvr {
 				missiles.remove(i--);
 				continue;
 			}
-			if (m.getDistanceToEntity(m.targetEntity) > 120 && !isPlayerTrackingEntity(p.getDisplayName(), m.targetEntity)) {
+			Entity target = m.targetEntity;
+			if (target == null 
+					|| (m.getDistanceToEntity(target) > 120 && !isPlayerTrackingEntity(p.getDisplayName(), target))) {
 				sendError(p, "Missile lost track of it's target.");
 				m.setDead();
 				missiles.remove(i--);
