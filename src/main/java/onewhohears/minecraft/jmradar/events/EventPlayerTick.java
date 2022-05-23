@@ -28,7 +28,7 @@ public class EventPlayerTick {
 		if (JMRadarMod.mcHeliRadar) mcHeliRadar(event.player);
 	}
 	
-	private int heliTimer = 0;
+	//private int heliTimer = 0;
 	
 	@SuppressWarnings("unchecked")
 	private void mcHeliRadar(EntityPlayer player) {
@@ -38,8 +38,9 @@ public class EventPlayerTick {
 		MCH_AircraftInfo info = playerAircraft.getAcInfo();
 		if (!info.isEnableEntityRadar) return;
 		int heliRate = ConfigManager.getAircraftRadarRate(info.displayName);
-		if (heliTimer < heliRate) { ++heliTimer; return; }
-		if (heliTimer >= heliRate) heliTimer = 0;
+		if (player.worldObj.getWorldTime() % heliRate != 0) return;
+		//if (heliTimer < heliRate) { ++heliTimer; return; }
+		//if (heliTimer >= heliRate) heliTimer = 0;
 		double range = ConfigManager.getPlaneRange(info.displayName);
 		List<MCH_EntityAircraft> entities = player.getEntityWorld().getEntitiesWithinAABB(
 				MCH_EntityAircraft.class, player.boundingBox.expand(range, range, range));
@@ -57,7 +58,7 @@ public class EventPlayerTick {
 			if (ping.riddenByEntity == null) continue;
 			if (!(ping.riddenByEntity instanceof EntityPlayer)) continue;
 			if (player.isOnSameTeam((EntityPlayer)ping.riddenByEntity)) continue;
-			if (!player.canEntityBeSeen(ping)) continue;
+			if (!((EntityPlayer)ping.riddenByEntity).canEntityBeSeen(player)) continue;
 			pings.add(ping);
 			W_WorldFunc.MOD_playSoundAtEntity(ping.riddenByEntity, "locked", 1.0F, 1.0F);
 		}

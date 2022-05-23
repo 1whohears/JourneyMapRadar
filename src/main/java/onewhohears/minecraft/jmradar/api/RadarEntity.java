@@ -6,7 +6,6 @@ import java.util.List;
 import mcheli.aircraft.MCH_EntityAircraft;
 import mcheli.wrapper.W_WorldFunc;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -19,7 +18,7 @@ public class RadarEntity {
 	
 	private String id;
 	private double range;
-	private EntityLivingBase radar; // TODO make this a normal entity and find an alternative to EntityLivingBase.canEntityBeSeen()
+	private Entity radar; // TODO make this a normal entity and find an alternative to EntityLivingBase.canEntityBeSeen()
 	private List<EntityPlayerMP> players = new ArrayList<EntityPlayerMP>();
 	private List<ScorePlayerTeam> teams = new ArrayList<ScorePlayerTeam>();
 	private boolean active = true;
@@ -30,7 +29,7 @@ public class RadarEntity {
 	private int minRadarRate = 10;
 	private int defaultColor = ApiRadarEntity.defaultPingColor;
 	
-	protected RadarEntity(String id, double range, int radarRate, EntityLivingBase radar, TargetType targetType, double infoRange) {
+	protected RadarEntity(String id, double range, int radarRate, Entity radar, TargetType targetType, double infoRange) {
 		this.id = id;
 		this.radar = radar;
 		this.infoRange = infoRange;
@@ -39,7 +38,7 @@ public class RadarEntity {
 		setRadarRate(radarRate);
 	}
 	
-	protected RadarEntity(String id, double range, int radarRate, EntityLivingBase radar, TargetType targetType, ScorePlayerTeam team, double infoRange) {
+	protected RadarEntity(String id, double range, int radarRate, Entity radar, TargetType targetType, ScorePlayerTeam team, double infoRange) {
 		this.id = id;
 		this.radar = radar;
 		this.infoRange = infoRange;
@@ -49,7 +48,7 @@ public class RadarEntity {
 		setRadarRate(radarRate);
 	}
 	
-	protected RadarEntity(String id, double range, int radarRate, EntityLivingBase radar, TargetType targetType, EntityPlayerMP player, double infoRange) {
+	protected RadarEntity(String id, double range, int radarRate, Entity radar, TargetType targetType, EntityPlayerMP player, double infoRange) {
 		this.id = id;
 		this.radar = radar;
 		this.infoRange = infoRange;
@@ -139,7 +138,7 @@ public class RadarEntity {
 	/**
 	 * @return the entity the radar scans from
 	 */
-	public EntityLivingBase getRadarEntity() {
+	public Entity getRadarEntity() {
 		return radar;
 	}
 	
@@ -276,7 +275,7 @@ public class RadarEntity {
 			double distance = radar.getDistanceToEntity(ping);
 			if (distance > range) continue;
 			if (players.contains(ping)) continue;
-			if (!radar.canEntityBeSeen(ping)) continue;
+			if (!ping.canEntityBeSeen(radar)) continue;
 			pings.add(ping);
 		}
 		String prefix = id;
@@ -302,7 +301,7 @@ public class RadarEntity {
 			if (!(ping.riddenByEntity instanceof EntityPlayer)) continue;
 			if (players.contains(ping.riddenByEntity)) continue;
 			if (players.get(0).isOnSameTeam((EntityPlayer)ping.riddenByEntity)) continue;
-			if (!radar.canEntityBeSeen(ping)) continue;
+			if (!((EntityPlayer)ping.riddenByEntity).canEntityBeSeen(radar)) continue;
 			pings.add(ping);
 			W_WorldFunc.MOD_playSoundAtEntity(ping.riddenByEntity, "locked", 1.0F, 1.0F);
 		}
@@ -321,7 +320,7 @@ public class RadarEntity {
 			if (ping.isDead) continue;
 			double distance = radar.getDistanceToEntity(ping);
 			if (distance > range) continue;
-			if (!radar.canEntityBeSeen(ping)) continue;
+			if (!ping.canEntityBeSeen(radar)) continue;
 			pings.add(ping);
 		}
 		String prefix = id;

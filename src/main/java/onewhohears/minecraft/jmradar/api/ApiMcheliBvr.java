@@ -126,7 +126,7 @@ public class ApiMcheliBvr {
 		prm.user = user;
 		prm.option1 = target.getEntityId();
 		ac.useCurrentWeapon(prm);
-		double searchRange = 5;
+		double searchRange = 10;
 		List<MCH_EntityAAMissile> ms = ac.worldObj.getEntitiesWithinAABB(
 				MCH_EntityAAMissile.class, ac.boundingBox.expand(searchRange, searchRange, searchRange));
 		for (int i = 0; i < ms.size(); ++i) {
