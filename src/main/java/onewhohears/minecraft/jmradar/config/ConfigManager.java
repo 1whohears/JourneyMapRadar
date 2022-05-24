@@ -17,6 +17,8 @@ public class ConfigManager {
 	public static int mcheliPingAgeBuffer;
 	public static int maxMcheliBvrMissileAge;
 	public static boolean bvrMode;
+	public static int defaultPingColor;
+	public static String radarPrefix;
 	
 	public static final String CATEGORY_MCHELI_RANGE = "Mcheli Range";
 	public static final float minRange = 0, maxRange = 100000;
@@ -58,6 +60,10 @@ public class ConfigManager {
 				+ "The Mcheli Mod Might kill the missile before your value anyway.");
 		bvrMode = config.getBoolean("Beyond Visual Range Mode", GENERAL_MCHELI_RADAR, true, 
 				"Use a command to launch missiles at radar pings.");
+		defaultPingColor = config.getInt("Default Ping Color", GENERAL_MCHELI_RADAR, 0xe3b016, 0, 0xffffff, 
+				"The default color radar pings will be displayed as.");
+		radarPrefix = config.getString("Radar Ping Prefix", GENERAL_MCHELI_RADAR, "!P-", 
+				"The first part of the name of a ping waypoint.");
 		// range
 		defaultMcheliRange = config.getFloat("Default Mcheli Range", CATEGORY_MCHELI_RANGE, 800f, minRange, maxRange, 
 				"The default range of an mcheli aircraft radar.");

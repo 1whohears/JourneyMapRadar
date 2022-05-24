@@ -144,7 +144,8 @@ public class ApiMcheliBvr {
 		return false;
 	}
 	
-	private int alertTimer = 0, alertTime = 10;
+	private static int alertTime = 20;
+	private int alertTimer = 0;
 	
 	/**
 	 * already called in EventServerTick
@@ -182,7 +183,7 @@ public class ApiMcheliBvr {
 			}
 			double distance = m.getDistanceToEntity(target);
 			double pitBullRange = 100d;
-			boolean pitBull = distance > pitBullRange;
+			boolean pitBull = distance < pitBullRange;
 			if (!pitBull && !isPlayerTrackingEntity(p.getDisplayName(), target)) {
 				sendError(p, "Missile lost track of it's target.");
 				m.setDead();
@@ -196,21 +197,15 @@ public class ApiMcheliBvr {
 			}
 			IChunkProvider cp = p.worldObj.getChunkProvider();
 			int xmin = -3, xmax = 3, zmin = -3, zmax = 3;
-			//sendImportant(p, "Chunk: ["+m.chunkCoordX+", "+m.chunkCoordZ+"]");
-			//sendImportant(p, "Chunks Check x["+xmin+","+xmax+"] z["+zmin+","+zmax+"]");
 			for (int x = xmin; x < xmax+1; ++x) {
 				for (int z = zmin; z < zmax+1; ++z) {
-					int cx = m.chunkCoordX+x;
-					int cz = m.chunkCoordZ+z;
-					if (!cp.chunkExists(cx, cz)) {
-						cp.provideChunk(cx, cz);
-						//sendInfo(p, "New Chunk: ["+cx+", "+cz+"]");
-					}
+					int cx = m.chunkCoordX+x, cz = m.chunkCoordZ+z;
+					if (!cp.chunkExists(cx, cz)) cp.provideChunk(cx, cz);
 				}
 			}
 			if (alertTimer == alertTime && !pitBull) {
-				if (target.riddenByEntity != null) W_WorldFunc.MOD_playSoundAtEntity(target.riddenByEntity, "alert", 0.2F, 1.0F);
-				else W_WorldFunc.MOD_playSoundAtEntity(target, "alert", 0.2F, 1.0F);
+				if (target.riddenByEntity != null) W_WorldFunc.MOD_playSoundAtEntity(target.riddenByEntity, "alert", 0.4F, 1.0F);
+				else W_WorldFunc.MOD_playSoundAtEntity(target, "alert", 0.4F, 1.0F);
 			}
 			missiles.get(i).setPrevTick(m.ticksExisted);
 		}

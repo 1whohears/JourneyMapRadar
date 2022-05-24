@@ -18,7 +18,7 @@ public class RadarEntity {
 	
 	private String id;
 	private double range;
-	private Entity radar; // TODO make this a normal entity and find an alternative to EntityLivingBase.canEntityBeSeen()
+	private Entity radar; 
 	private List<EntityPlayerMP> players = new ArrayList<EntityPlayerMP>();
 	private List<ScorePlayerTeam> teams = new ArrayList<ScorePlayerTeam>();
 	private boolean active = true;
@@ -27,7 +27,7 @@ public class RadarEntity {
 	private TargetType targetType;
 	private boolean removeOnDeath = true;
 	private int minRadarRate = 10;
-	private int defaultColor = ApiRadarEntity.defaultPingColor;
+	private int defaultColor = ConfigManager.defaultPingColor;
 	
 	protected RadarEntity(String id, double range, int radarRate, Entity radar, TargetType targetType, double infoRange) {
 		this.id = id;

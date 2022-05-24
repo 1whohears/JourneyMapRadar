@@ -32,7 +32,7 @@ public class RadarPing {
 	}
 	
 	public String getFullName() {
-		return ApiRadarEntity.radarPrefix+prefix+number;
+		return ConfigManager.radarPrefix+prefix+number;
 	}
 	
 	public String getPrefix() {

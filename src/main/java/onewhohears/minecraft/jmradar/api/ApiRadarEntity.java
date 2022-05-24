@@ -10,10 +10,6 @@ public class ApiRadarEntity {
 	
 	public static ApiRadarEntity instance;
 	
-	public static final String radarPrefix = "!P-";
-	
-	public static final int defaultPingColor = 0xe3b016;
-	
 	public static int getPrefixLength() {
 		return 5;
 	}

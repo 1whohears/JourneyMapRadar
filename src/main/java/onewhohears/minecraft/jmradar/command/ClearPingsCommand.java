@@ -10,7 +10,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
-import onewhohears.minecraft.jmradar.api.ApiRadarEntity;
+import onewhohears.minecraft.jmradar.config.ConfigManager;
 
 @SideOnly(Side.CLIENT)
 public class ClearPingsCommand extends CommandBase {
@@ -36,12 +36,12 @@ public class ClearPingsCommand extends CommandBase {
 	public void processCommand(ICommandSender sender, String[] args) {
 		if (args.length != 0) { sendError("Unknown Command!"); return; } 
 		int delete = 0;
-		int l = ApiRadarEntity.radarPrefix.length();
+		int l = ConfigManager.radarPrefix.length();
 		Waypoint[] waypoints = WaypointStore.instance().getAll()
 				.toArray(new Waypoint[WaypointStore.instance().getAll().size()]);
 		for (int i = 0; i < waypoints.length; ++i) {
 			if (waypoints[i].getName().length() >= l) {
-				if (waypoints[i].getName().subSequence(0, l).equals(ApiRadarEntity.radarPrefix)) {
+				if (waypoints[i].getName().subSequence(0, l).equals(ConfigManager.radarPrefix)) {
 					WaypointStore.instance().remove(waypoints[i]);
 					++delete;
 				}

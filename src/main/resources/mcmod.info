@@ -4,7 +4,7 @@
     "modid": "jmradar",
     "name": "Journey Map Radar 1.7.10",
     "description": "A Journey Map 'Addon' that gives players a 'radar' that displays the pings as waypoints",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "mcversion": "1.7.10",
     "url": "http://journeymap.info",
     "updateUrl": "",
