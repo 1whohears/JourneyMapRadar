@@ -17,6 +17,7 @@ public class ConfigManager {
 	public static int mcheliPingAgeBuffer;
 	public static int maxMcheliBvrMissileAge;
 	public static boolean bvrMode;
+	public static boolean looseTargetKillMissiles;
 	public static int defaultPingColor;
 	public static String radarPrefix;
 	
@@ -60,6 +61,9 @@ public class ConfigManager {
 				+ "The Mcheli Mod Might kill the missile before your value anyway.");
 		bvrMode = config.getBoolean("Beyond Visual Range Mode", GENERAL_MCHELI_RADAR, true, 
 				"Use a command to launch missiles at radar pings.");
+		looseTargetKillMissiles = config.getBoolean("Kill Missiles if Loose Track on Radar", GENERAL_MCHELI_RADAR, false, 
+				"Disable this if the server is laggy and pings don't refresh in time. "
+				+ "This means you only need to lock onto a target once to shoot them with a bvr missile.");
 		defaultPingColor = config.getInt("Default Ping Color", GENERAL_MCHELI_RADAR, 0xe3b016, 0, 0xffffff, 
 				"The default color radar pings will be displayed as.");
 		radarPrefix = config.getString("Radar Ping Prefix", GENERAL_MCHELI_RADAR, "!P-", 

@@ -7,7 +7,7 @@ public class RadarPing {
 	
 	private String prefix;
 	private int number;
-	private Entity pingEntity;
+	private Entity trackEntity;
 	private int age;
 	private int maxAge;
 	
@@ -15,12 +15,12 @@ public class RadarPing {
 		if (prefix.length() > ApiRadarEntity.getPrefixLength()) prefix = prefix.substring(0, ApiRadarEntity.getPrefixLength());
 		this.prefix = prefix;
 		this.number = number;
-		this.pingEntity = pingEntity;
+		this.trackEntity = pingEntity;
 		this.maxAge = maxAge;
 	}
 	
 	public Entity getEntity() {
-		return pingEntity;
+		return trackEntity;
 	}
 	
 	public int getAge() {

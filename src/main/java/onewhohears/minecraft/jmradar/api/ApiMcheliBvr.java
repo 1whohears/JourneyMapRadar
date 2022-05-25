@@ -176,7 +176,7 @@ public class ApiMcheliBvr {
 			}
 			Entity target = m.targetEntity;
 			if (target == null) {
-				sendError(p, "Missile lost track of it's target.");
+				sendError(p, "Missile Target Vanished.");
 				m.setDead();
 				missiles.remove(i--);
 				continue;
@@ -184,7 +184,10 @@ public class ApiMcheliBvr {
 			double distance = m.getDistanceToEntity(target);
 			double pitBullRange = 100d;
 			boolean pitBull = distance < pitBullRange;
-			if (!pitBull && !isPlayerTrackingEntity(p.getDisplayName(), target)) {
+			// TODO make the missile track invisible stationary entities they fly towards the ping location maybe?
+			// removing this for now because laggy servers just kill all the missiles
+			// for now missiles will keep going towards the target even if the user looses track
+			if (!pitBull && ConfigManager.looseTargetKillMissiles && !isPlayerTrackingEntity(p.getDisplayName(), target)) {
 				sendError(p, "Missile lost track of it's target.");
 				m.setDead();
 				missiles.remove(i--);
