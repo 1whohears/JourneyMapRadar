@@ -80,7 +80,7 @@ public class JMRadarCommand extends CommandBase {
 	
 	private void color(String prefix, String colorString) {
 		// TODO change color of a ping by its prefix
-		sendMessage("This command doesn't work yet.");
+		sendMessage("This command doesn't do anything yet.");
 	}
 	
 	private String[] getPingNames(String playerName) {
