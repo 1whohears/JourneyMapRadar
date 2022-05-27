@@ -7,25 +7,11 @@ public class McheliData {
 	private double stealth;
 	private int radarRate;
 	
-	protected McheliData(String name, double range) {
+	protected McheliData(String name) {
 		this.name = name;
-		setRange(range);
-		this.stealth = ConfigManager.defaultMcheliStealth;
-		this.radarRate = ConfigManager.defaultMcheliRadarRate;
-	}
-	
-	protected McheliData(double stealth, String name) {
-		this.name = name;
-		setStealth(stealth);
-		this.range = ConfigManager.defaultMcheliRange;
-		this.radarRate = ConfigManager.defaultMcheliRadarRate;
-	}
-	
-	protected McheliData(String name, int radarRate) {
-		this.name = name;
-		setRadarRate(radarRate);
 		this.range = ConfigManager.defaultMcheliRange;
 		this.stealth = ConfigManager.defaultMcheliStealth;
+		this.radarRate = ConfigManager.defaultMcheliRadarRate;
 	}
 	
 	public String getName() {
@@ -64,7 +50,7 @@ public class McheliData {
 	
 	@Override
 	public String toString() {
-		return "[" + name + " : " + range + " : " + stealth + ":" + radarRate + "]";
+		return "[" + name + " : " + range + " : " + stealth + " : " + radarRate + "]";
 	}
 	
 }

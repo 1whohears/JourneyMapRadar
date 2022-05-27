@@ -68,41 +68,48 @@ public class ConfigManager {
 				"The default color radar pings will be displayed as.");
 		radarPrefix = config.getString("Radar Ping Prefix", GENERAL_MCHELI_RADAR, "!P-", 
 				"The first part of the name of a ping waypoint.");
-		// range
+		//defaults
 		defaultMcheliRange = config.getFloat("Default Mcheli Range", CATEGORY_MCHELI_RANGE, 800f, minRange, maxRange, 
 				"The default range of an mcheli aircraft radar.");
+		defaultMcheliStealth = config.getFloat("Default Mcheli Stealth", CATEGORY_MCHELI_STEALTH, 1.0f, minStealth, maxStealth, 
+				"The default stealth of a mcheli aircraft.");
+		defaultMcheliRadarRate = config.getInt("Default Mcheli Radar Rate", CATEGORY_MCHELI_RADAR_RATE, 60, minRate, maxRate, 
+				"Number of ticks before your mcheli aircraft gets new pings.");
+		defaultMaxBvrMissileRange = config.getFloat("Default BVR Missile Range", CATEGORY_BVR_RANGE, 1000f, minRange, maxRange, 
+				"The default range of a BVR missile radar.");
+		// range
 		mcheliRangeStrings = config.getStringList("Aircraft Range Overrides", CATEGORY_MCHELI_RANGE, getDefaultRanges(), 
 				"Set custom ranges for mcheli aircraft using their display name. <aircraft name>=<range>");
 		parseRanges();
 		// stealth
-		defaultMcheliStealth = config.getFloat("Default Mcheli Stealth", CATEGORY_MCHELI_STEALTH, 1.0f, minStealth, maxStealth, 
-				"The default stealth of a mcheli aircraft.");
 		mcheliStealthStrings = config.getStringList("Aircraft Stealth Overrides", CATEGORY_MCHELI_STEALTH, getDefaultStealth(), 
 				"Set custom stealth for mcheli aircraft using their display name. "
 				+ "Your_Stealth * Enemy_Range is the distance an enemy can see you. "
 				+ "<aircraft name>=<stealth>");
 		parseStealth();
 		// radar rate
-		defaultMcheliRadarRate = config.getInt("Default Mcheli Radar Rate", CATEGORY_MCHELI_RADAR_RATE, 60, minRate, maxRate, 
-				"Number of ticks before your mcheli aircraft gets new pings.");
 		mcheliRadarRateStrings = config.getStringList("Aircraft Radar Rate Overrides", CATEGORY_MCHELI_RADAR_RATE, getDefaultRates(), 
 				"Set custom radar rate for mcheli aircraft using their display name. "
 				+ "<aircraft name>=<rate>");
 		parseRadarRates();
 		// bvr range
-		defaultMaxBvrMissileRange = config.getFloat("Default BVR Missile Range", CATEGORY_BVR_RANGE, 1000f, minRange, maxRange, 
-				"The default range of a BVR missile radar.");
 		missileRangeStrings = config.getStringList("Missile Range Overrides", CATEGORY_BVR_RANGE, getDefaultMissileRanges(), 
 				"Set custom ranges for missiles using their display name. "
 				+ "<missile name>=<range>");
 		parseMissileRanges();
 		if (config.hasChanged()) config.save();
+		//checkMcheliData();
 	}
 	
 	@SubscribeEvent
 	public void onConfigChange(ConfigChangedEvent.OnConfigChangedEvent event) {
 		if (event.modID.equalsIgnoreCase(JMRadarMod.MOD_ID)) loadConfig();
 	}
+	
+	/*private static void checkMcheliData() {
+		System.out.println("CHECK MCHELI DATA");
+		for (int i = 0; i < mcheliList.size(); ++i) System.out.println("%#@"+mcheliList.get(i).toString());
+	}*/
 	
 	private static String[] getDefaultRanges() {
 		return new String[] {
@@ -131,7 +138,7 @@ public class ConfigManager {
 					} catch (NumberFormatException e) {
 						printRangeParseError(data[1]+" is not a double.");
 					}
-					mcheliList.add(addRangeData(data[0], num));
+					addRangeData(data[0], num);
 				} else printRangeParseError(mcheliRangeStrings[i]+" has more than one =");
 			} else printRangeParseError(mcheliRangeStrings[i]+" doesn't have =");
 		}
@@ -172,7 +179,7 @@ public class ConfigManager {
 					} catch (NumberFormatException e) {
 						printStealthParseError(data[1]+" is not a double.");
 					}
-					mcheliList.add(addStealthData(num, data[0]));
+					addStealthData(data[0], num);
 				} else printStealthParseError(mcheliStealthStrings[i]+" has more than one =");
 			} else printStealthParseError(mcheliStealthStrings[i]+" doesn't have =");
 		}
@@ -198,27 +205,29 @@ public class ConfigManager {
 		for (int i = 0; i < mcheliList.size(); ++i) {
 			if (mcheliList.get(i).getName().equals(name)) return mcheliList.get(i);
 		}
-		return null;
+		McheliData data = new McheliData(name);
+		mcheliList.add(data);
+		return data;
 	}
 	
 	private static McheliData addRangeData(String name, double range) {
 		McheliData data = getMcheliDatabyName(name);
-		if (data == null) return new McheliData(name, range);
 		data.setRange(range);
+		//System.out.println("%#@range"+data.toString());
 		return data;
 	}
 	
-	private static McheliData addStealthData(double stealth, String name) {
+	private static McheliData addStealthData(String name, double stealth) {
 		McheliData data = getMcheliDatabyName(name);
-		if (data == null) return new McheliData(stealth, name);
 		data.setStealth(stealth);
+		//System.out.println("%#@steal"+data.toString());
 		return data;
 	}
 	
 	private static McheliData addRadarRateData(String name, int rate) {
 		McheliData data = getMcheliDatabyName(name);
-		if (data == null) return new McheliData(name, rate);
 		data.setRadarRate(rate);
+		//System.out.println("%#@rates"+data.toString());
 		return data;
 	}
 	
@@ -252,7 +261,7 @@ public class ConfigManager {
 					} catch (NumberFormatException e) {
 						printRadarRateParseError(data[1]+" is not an Integer.");
 					}
-					mcheliList.add(addRadarRateData(data[0], num));
+					addRadarRateData(data[0], num);
 				} else printRadarRateParseError(mcheliRadarRateStrings[i]+" has more than one =");
 			} else printRadarRateParseError(mcheliRadarRateStrings[i]+" doesn't have =");
 		}
