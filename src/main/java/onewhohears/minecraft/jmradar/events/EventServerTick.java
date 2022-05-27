@@ -8,6 +8,8 @@ import onewhohears.minecraft.jmradar.api.ApiRadarEntity;
 
 public class EventServerTick {
 	
+	public static int ticks;
+	
 	@SubscribeEvent
 	public void onServerTick(TickEvent.ServerTickEvent event) {
 		if (event.side != Side.SERVER) return;
@@ -19,6 +21,7 @@ public class EventServerTick {
 		if (ApiMcheliBvr.instance != null) {
 			ApiMcheliBvr.instance.runBvrMissiles();
 		}
+		++ticks;
 	}
 	
 }

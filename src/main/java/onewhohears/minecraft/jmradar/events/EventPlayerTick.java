@@ -13,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.WorldServer;
 import onewhohears.minecraft.jmradar.JMRadarMod;
 import onewhohears.minecraft.jmradar.api.ApiMcheliBvr;
 import onewhohears.minecraft.jmradar.api.ApiRadarEntity;
@@ -37,7 +38,7 @@ public class EventPlayerTick {
 		MCH_AircraftInfo info = playerAircraft.getAcInfo();
 		if (!info.isEnableEntityRadar) return;
 		int heliRate = ConfigManager.getAircraftRadarRate(info.displayName);
-		if (player.worldObj.getWorldTime() % heliRate != 0) return;
+		if (EventServerTick.ticks % heliRate != 0) return;
 		double range = ConfigManager.getPlaneRange(info.displayName);
 		List<MCH_EntityAircraft> entities = player.getEntityWorld().getEntitiesWithinAABB(
 				MCH_EntityAircraft.class, player.boundingBox.expand(range, range, range));
@@ -59,8 +60,9 @@ public class EventPlayerTick {
 			pings.add(ping);
 			W_WorldFunc.MOD_playSoundAtEntity(ping.riddenByEntity, "locked", 1.0F, 1.0F);
 		}
+		WorldServer world = MinecraftServer.getServer().worldServerForDimension(player.dimension);
 		String playerName = player.getDisplayName();
-		Scoreboard board = MinecraftServer.getServer().worldServerForDimension(0).getScoreboard();
+		Scoreboard board = world.getScoreboard();
 		ScorePlayerTeam team = board.getPlayersTeam(playerName);
 		List<String> playerNames = null;
 		if (team != null) playerNames = new ArrayList<String>(team.getMembershipCollection());
