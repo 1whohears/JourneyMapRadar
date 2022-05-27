@@ -105,7 +105,7 @@ public class ApiMcheliBvr {
 			return false; 
 		}
 		if (!ws.canUse()) {
-			sendError(user, "Can't use weapon right now!");
+			sendError(user, "Can't use this weapon right now!");
 			return false; 
 		}
 		double minRange = ConfigManager.getBvrMissileMaxRange(info.displayName);
@@ -121,6 +121,7 @@ public class ApiMcheliBvr {
 			sendError(user, "Out of Ammo!");
 			return false;
 		}
+		// TODO if the target aircraft is not airborne the missile glitches out?
 		MCH_WeaponParam prm = new MCH_WeaponParam();
 		prm.setPosition(ac.posX, ac.posY, ac.posZ);
 		prm.entity = ac;
