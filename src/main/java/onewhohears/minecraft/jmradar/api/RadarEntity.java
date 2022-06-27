@@ -245,6 +245,7 @@ public class RadarEntity {
 			ApiRadarEntity.instance.removeRadar(id);
 			return;
 		}
+		if (!active) return;
 		boolean isPlayerNear = false;
 		for (int i = 0; i < players.size(); ++i) {
 			if (players.get(i).getDistanceToEntity(radar) <= infoRange) {
@@ -253,7 +254,6 @@ public class RadarEntity {
 			}
 		}
 		if (!isPlayerNear) return;
-		if (!active) return;
 		if (radarTimer > 0) { --radarTimer; return; }
 		if (radarTimer <= 0) radarTimer = radarRate;
 		if (players.size() < 1) return;
