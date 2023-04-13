@@ -1,8 +1,7 @@
 buildscript {
-    repositories {
-        mavenCentral()
-        maven { url = "https://jcenter.bintray.com/" }
-        maven {
+	repositories {
+		mavenCentral()
+		maven {
             name = "forge"
             url = "https://maven.minecraftforge.net/"
         }
@@ -12,7 +11,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath ('com.anatawa12.forge:ForgeGradle:1.2-1.0.+') {
+        classpath ('com.anatawa12.forge:ForgeGradle:1.2-1.1.+') {
             changing = true
         }
     }
@@ -20,8 +19,8 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "0.3.4"
-group= "com.onewhohears.jmradar" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+version = "0.4.0"
+group= "com.onewhohears.jmradar"
 archivesBaseName = "Journey_Map_Radar_1.7.10"
 
 sourceCompatibility = 1.8

@@ -36,7 +36,7 @@ public class PlayerPings {
 	private void sendWaypoint(RadarPing ping, int color) {
 		String senderName = playerName;
 		if (ping.getPrefix().equals(playerPrefix)) senderName = "Your Onboard Radar";
-		ApiWaypointManager.instance.shareWaypointToPlayer((int)ping.getEntity().posX, (int)ping.getEntity().posY, (int)ping.getEntity().posZ, 
+		ApiWaypointManager.getInstance().shareWaypointToPlayer((int)ping.getEntity().posX, (int)ping.getEntity().posY, (int)ping.getEntity().posZ, 
 				ping.getEntity().dimension, color, true, ping.getFullName(), senderName, playerName, ping.getEntity().worldObj.isRemote);
 	}
 	
@@ -52,7 +52,7 @@ public class PlayerPings {
 		for (int i = 0; i < pings.size(); ++i) {
 			String name = pings.get(i).getFullName();
 			if (pings.get(i).isTooOld()) {
-				ApiWaypointManager.instance.removePlayerWaypoint(playerName, name, false, false);
+				ApiWaypointManager.getInstance().removePlayerWaypoint(playerName, name, false, false);
 				pings.remove(i--);
 			}
 		}

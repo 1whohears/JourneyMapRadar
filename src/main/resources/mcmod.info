@@ -3,17 +3,17 @@
   "modList": [{
     "modid": "jmradar",
     "name": "Journey Map Radar 1.7.10",
-    "description": "A Journey Map 'Addon' that gives players a 'radar' that displays the pings as waypoints",
-    "version": "0.3.4",
+    "description": "A Journey Map Addon that gives players in mcheli aircraft a radar that displays the pings as waypoints",
+    "version": "0.4.0",
     "mcversion": "1.7.10",
-    "url": "http://journeymap.info",
-    "updateUrl": "",
+    "url": "https://www.curseforge.com/minecraft/mc-mods/journeymap-waypoint-radar",
+    "updateUrl": "https://raw.githubusercontent.com/1whohears/ModVersions/main/JourneyMapRadar/update.json",
     "authorList": ["1whohears"],
-    "logoFile": "",
+    "logoFile": "cat.png",
     "screenshots": [],
     "dependants":[],
-    "dependencies": ["journeymap","mcheli@[1.0.3,)","journeymap_api_1.7.10@[0.8.5,)"],
-    "requiredMods": ["Forge@[10.13.4.1558,)"],
+    "dependencies": ["journeymap","mcheli@[1.0.3,)","journeymap_api_1.7.10@[1.0.0,)"],
+    "requiredMods": ["Forge@[10.13.4.1614,)"],
     "useDependencyInformation": true
   }]
 }
