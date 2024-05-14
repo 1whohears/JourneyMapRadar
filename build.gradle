@@ -19,7 +19,7 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "0.4.0"
+version = "0.4.1"
 group= "com.onewhohears.jmradar"
 archivesBaseName = "Journey_Map_Radar_1.7.10"
 
